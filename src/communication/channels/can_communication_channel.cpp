@@ -17,12 +17,7 @@ namespace BHAS {
 
     int result = _canBus.write(CANMessage(message.source_id(), buffer, 3+message.payload_size()));
   
-    // call_handlers(_sendHandlers, message);
-
-    for (auto handler : _sendHandlers) {
-      handler.get().handle_message(message);
-    }
-
+    call_handlers(_sendHandlers, message);
 
     return result;
   }
@@ -35,10 +30,10 @@ namespace BHAS {
     _sendHandlers.push_back(handler);
   }
 
-  // void CANCommunicationChannel::call_handlers(std::vector<std::reference_wrapper<IMessageHandler>> & handlers, const Message * const message) const {
-  //   for (auto handler : handlers) {
-  //     handler.get().handle_message(message);
-  //   }
-  // }
+  void CANCommunicationChannel::call_handlers(std::vector<std::reference_wrapper<IMessageHandler>> & handlers, const Message & message) const {
+    for (auto handler : handlers) {
+      handler.get().handle_message(message);
+    }
+  }
 
 };

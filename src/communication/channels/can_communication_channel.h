@@ -21,7 +21,7 @@ namespace BHAS {
       void register_send_handler(IMessageHandler & handler);
 
     private:
-      // void call_handlers(std::vector<std::reference_wrapper<IMessageHandler>> & handlers, const Message * const message) const;
+      void call_handlers(std::vector<std::reference_wrapper<IMessageHandler>> & handlers, const Message & message) const;
 
     private:
       static const size_t MAX_CAN_PACKET_SIZE = 8;
