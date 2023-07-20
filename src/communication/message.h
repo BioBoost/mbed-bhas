@@ -44,7 +44,7 @@ namespace BHAS {
       uint8_t _entityId = 0;
       Message::Type _type = Message::Type::NONE;
 
-      static const size_t MAX_PAYLOAD_SIZE = 6;
+      static const size_t MAX_PAYLOAD_SIZE = 5;     // TODO: CAN property ! Should not be dependency here !
 
       char _payload[MAX_PAYLOAD_SIZE] = { 0 };
       size_t _payloadSize = 0;

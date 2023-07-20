@@ -8,24 +8,24 @@ namespace BHAS {
   class MessagePrinter {
 
     public:
-      static void print(char * buffer, Message * message) {
+      static void print(char * buffer, const Message & message) {
         size_t offset = sprintf(
           buffer,
           "[%d] => [%d] (Ent. ID: %d) _%s_ | Data: ",
-          message->source_id(),
-          message->destination_id(),
-          message->entity_id(),
-          message_type_as_string(message->type())
+          message.source_id(),
+          message.destination_id(),
+          message.entity_id(),
+          message_type_as_string(message.type())
         );
         
-        for (size_t i = 0; i < message->payload_size(); i++) {
-          offset += sprintf(buffer+offset, "%d ", message->payload()[i]);
+        for (size_t i = 0; i < message.payload_size(); i++) {
+          offset += sprintf(buffer+offset, "%d ", message.payload()[i]);
         }
 
-        sprintf(buffer+offset, "{ %d bytes }", message->payload_size());
+        sprintf(buffer+offset, "{ %d bytes }", message.payload_size());
       }
 
-      static char * message_type_as_string(Message::Type type) {
+      static const char * message_type_as_string(Message::Type type) {
         switch(type) {
           case Message::Type::NONE: return "NONE";
           case Message::Type::HELLO: return "HELLO";

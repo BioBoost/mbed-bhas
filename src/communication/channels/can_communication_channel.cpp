@@ -8,15 +8,37 @@ namespace BHAS {
     :_canBus(canBus) {
   }
 
-  bool CANCommunicationChannel::send(Message * message) {
-    char buffer[8] = { 0 };
-    buffer[0] = message->destination_id();
-    buffer[1] = message->entity_id();
-    buffer[2] = static_cast<char>(message->type());
-    memcpy(buffer+3, message->payload(), message->payload_size());
+  bool CANCommunicationChannel::send(const Message & message) {
+    char buffer[MAX_CAN_PACKET_SIZE] = { 0 };
+    buffer[0] = message.destination_id();
+    buffer[1] = message.entity_id();
+    buffer[2] = static_cast<char>(message.type());
+    memcpy(buffer+3, message.payload(), message.payload_size());
 
-    return _canBus.write(CANMessage(message->source_id(), buffer, 3+message->payload_size()));
+    int result = _canBus.write(CANMessage(message.source_id(), buffer, 3+message.payload_size()));
+  
+    // call_handlers(_sendHandlers, message);
+
+    for (auto handler : _sendHandlers) {
+      handler.get().handle_message(message);
+    }
+
+
+    return result;
   }
 
+  void CANCommunicationChannel::register_receive_handler(IMessageHandler & handler) {
+    _receiveHandlers.push_back(handler);
+  }
+
+  void CANCommunicationChannel::register_send_handler(IMessageHandler & handler) {
+    _sendHandlers.push_back(handler);
+  }
+
+  // void CANCommunicationChannel::call_handlers(std::vector<std::reference_wrapper<IMessageHandler>> & handlers, const Message * const message) const {
+  //   for (auto handler : handlers) {
+  //     handler.get().handle_message(message);
+  //   }
+  // }
 
 };
