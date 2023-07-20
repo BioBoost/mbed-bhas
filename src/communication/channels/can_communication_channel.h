@@ -15,6 +15,10 @@ namespace BHAS {
 
     public:
       bool send(const Message & message);
+    
+    public:
+      // Need to call this method periodically to receive messages; handlers will be called if registered
+      void receive();
 
     public:
       void register_receive_handler(IMessageHandler & handler);

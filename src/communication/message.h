@@ -21,6 +21,7 @@ namespace BHAS {
       };
 
     public:
+      Message();
       Message(uint8_t sourceId, uint8_t destinationId, uint8_t entityId, Message::Type type);
 
     public:

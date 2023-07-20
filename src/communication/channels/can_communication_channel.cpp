@@ -22,6 +22,22 @@ namespace BHAS {
     return result;
   }
 
+  void CANCommunicationChannel::receive() {
+    CANMessage rawMessage;
+    if (_canBus.read(rawMessage)) {
+      // Ignore message if minimal fields are missing
+      if (rawMessage.len < 3) return;
+
+      Message message;
+      message.source_id(rawMessage.id);
+      message.destination_id(rawMessage.data[0]);
+      message.entity_id(rawMessage.data[1]);
+      message.type(static_cast<Message::Type>(rawMessage.data[2]));
+
+      call_handlers(_receiveHandlers, message);
+    }
+  }
+
   void CANCommunicationChannel::register_receive_handler(IMessageHandler & handler) {
     _receiveHandlers.push_back(handler);
   }
