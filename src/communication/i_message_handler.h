@@ -2,13 +2,13 @@
 
 #include "message.h"
 
-namespace BHAS {
+namespace BHAS::Communication {
 
   // <<interface>>
   class IMessageHandler {
 
     public:
-      virtual void handle_message(const Message & message) const = 0;
+      virtual void handle_message(Message& message) const = 0;
 
   };
 

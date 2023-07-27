@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../communication/message_handler.h"
+#include "i_message_handler.h"
 
-namespace BHAS {
+namespace BHAS::Logging {
 
-  class MessageLogger : public IMessageHandler {
+  class MessageLogger : public Communication::IMessageHandler {
 
     public:
-      void handle_message(const Message & message) const;
+      void handle_message(Communication::Message& message) const;
 
   };
 

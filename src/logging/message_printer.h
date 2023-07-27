@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../communication/message.h"
+#include "message.h"
 #include <cstdio>
 
-namespace BHAS {
+namespace BHAS::Logging {
 
   class MessagePrinter {
 
     public:
-      static void print(char * buffer, const Message & message) {
+      static void print(char* buffer, const Communication::Message& message) {
         size_t offset = sprintf(
           buffer,
           "[%d] => [%d] (Ent. ID: %d) _%s_ | Data: ",
@@ -25,7 +25,8 @@ namespace BHAS {
         sprintf(buffer+offset, "{ %d bytes }", message.payload_size());
       }
 
-      static const char * message_type_as_string(Message::Type type) {
+      static const char* message_type_as_string(Communication::Message::Type type) {
+        using Communication::Message;
         switch(type) {
           case Message::Type::NONE: return "NONE";
           case Message::Type::HELLO: return "HELLO";
@@ -36,7 +37,7 @@ namespace BHAS {
           case Message::Type::WARNING: return "WARNING";
           case Message::Type::ERROR: return "ERROR";
           case Message::Type::ALIVE: return "ALIVE";
-          default: return "?????";
+          default: return "?UNKNOWN_MESSAGE_TYPE?";
         }
       }
 

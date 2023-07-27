@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-namespace BHAS {
+namespace BHAS::Communication {
 
   class Message {
 

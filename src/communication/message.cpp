@@ -2,7 +2,7 @@
 #include <cstring>
 #include "mbed_assert.h"
 
-namespace BHAS {
+namespace BHAS::Communication {
 
   Message::Message() { }
 
