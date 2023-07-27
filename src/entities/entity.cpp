@@ -1,9 +1,10 @@
 #include "entity.h"
 
-namespace BHAS {
+namespace BHAS::Entities {
 
-  Entity::Entity(uint8_t id) {
-    _id = id;
+  Entity::Entity(uint8_t id)
+    : _id(id) {
+
   }
 
   uint8_t Entity::id() const {
