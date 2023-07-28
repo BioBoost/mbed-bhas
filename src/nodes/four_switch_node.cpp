@@ -2,8 +2,8 @@
 
 namespace BHAS::Nodes {
 
-  FourSwitchNode::FourSwitchNode(uint8_t id, Communication::Channels::Channel& channel)
-  : Node(id, channel) {
+  FourSwitchNode::FourSwitchNode(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel)
+  : Node(id, gatewayId, channel) {
 
     setup_buttons();
     setup_leds();
@@ -19,7 +19,7 @@ namespace BHAS::Nodes {
   }
 
   void FourSwitchNode::button_pressed(Events::EventContext* context, Entities::PushButton::PressType type) {
-    Communication::Message message(0, 0, context->entity().id(), Communication::Message::Type::EVENT);      // TODO: sourceId, destinationId
+    Communication::Message message(id(), gateway_id(), context->entity().id(), Communication::Message::Type::EVENT);
 
     char payload[] = { (char)(type) };
     message.payload(payload, sizeof(payload));
@@ -28,7 +28,7 @@ namespace BHAS::Nodes {
   }
 
   void FourSwitchNode::temperature_ready(Events::EventContext* context, int8_t temperature) {
-    Communication::Message message(0, 10, context->entity().id(), Communication::Message::Type::PERIODIC);
+    Communication::Message message(id(), gateway_id(), context->entity().id(), Communication::Message::Type::PERIODIC);
 
     char payload[] = { temperature };
     message.payload(payload, sizeof(payload));

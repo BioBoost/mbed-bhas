@@ -16,7 +16,7 @@ namespace BHAS::Nodes {
   class FourSwitchNode : public Node {
 
     public:
-      FourSwitchNode(uint8_t id, Communication::Channels::Channel& channel);
+      FourSwitchNode(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel);
 
     protected:
       void handle_received_message(Communication::Message& message) const override;

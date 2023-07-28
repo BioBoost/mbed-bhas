@@ -4,8 +4,8 @@
 
 namespace BHAS::Nodes {
 
-  Node::Node(uint8_t id, Communication::Channels::Channel& channel)
-    : _id(id), _channel(channel) {
+  Node::Node(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel)
+    : _id(id), _gatewayId(gatewayId), _channel(channel) {
 
     setup_channel_logging();
     setup_channel_processing();
@@ -13,6 +13,10 @@ namespace BHAS::Nodes {
 
   uint8_t Node::id() const {
     return _id;
+  }
+
+  uint8_t Node::gateway_id() const {
+    return _gatewayId;
   }
 
   void Node::take_over() {

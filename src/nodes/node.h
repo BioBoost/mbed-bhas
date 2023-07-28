@@ -13,10 +13,11 @@ namespace BHAS::Nodes {
   class Node : public Communication::IMessageHandler {
 
     public:
-      Node(uint8_t id, Communication::Channels::Channel& channel);
+      Node(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel);
 
     public:
       uint8_t id() const;
+      uint8_t gateway_id() const;
 
     public:
       void take_over();
@@ -36,6 +37,7 @@ namespace BHAS::Nodes {
 
     private:
       uint8_t _id = 0;
+      uint8_t _gatewayId = 0;
       Communication::Channels::Channel& _channel;
       Logging::MessageLogger _messageLogger;
       EntityManager _entities;
