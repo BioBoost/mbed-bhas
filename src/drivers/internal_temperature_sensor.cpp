@@ -1,6 +1,6 @@
-#include "internal_temperature.h"
+#include "internal_temperature_sensor.h"
 
-namespace BHAS::Sensors {
+namespace BHAS::Drivers {
 
   InternalTemperature::InternalTemperature()
     : _internalTemperature(ADC_TEMP), _vrefInt(ADC_VREF) {

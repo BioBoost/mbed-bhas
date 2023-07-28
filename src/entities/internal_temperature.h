@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "event_context.h"
 #include "entity.h"
-#include "sensors/internal_temperature_sensor.h"
+#include "drivers/internal_temperature_sensor.h"
 
 namespace BHAS::Entities {
 
@@ -20,7 +20,7 @@ namespace BHAS::Entities {
       void notify_temperature();
 
     private:
-      BHAS::Sensors::InternalTemperature _internalTemperatureSensor;
+      BHAS::Drivers::InternalTemperature _internalTemperatureSensor;
       Callback<void(BHAS::Events::EventContext*,int8_t)> _onTemperature;
 
   };

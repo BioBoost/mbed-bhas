@@ -1,6 +1,14 @@
 # BHAS - Bio Home Automation System
 
-Mbed library for my home automation system. Consists of CAN nodes that are connected to an MQTT enabled master device.
+Mbed library for my Bio Home Automation System (BHAS - pronounced BeeHas). It consists of CAN nodes that are connected to an MQTT enabled master device.
+
+## Nodes
+
+Nodes are basically a representation of the actual hardware platforms. They include the device dependant code.
+
+So we can for example have a node with switches attached, a node that controls a number of relays, ...
+
+In a later stage we will also provide a master node which serves as a gateway to Home Assistant via MQTT.
 
 ## Messages
 
@@ -33,3 +41,11 @@ Notice that a basic CAN message can only hold 8 bytes of data while we seem to h
   * ALIVE: `0x08`
 
 For the moment only `EVENT` and `PERIODIC` messages are used.
+
+## Entities
+
+Entities are the building blocks of a node. They represent an abstraction of a sensor, relay, led, ... They have a unique id within the scope of the node which can be the source or target of a message.
+
+## Drivers
+
+Drivers contain the hardware dependant code for sensors/actuators/...

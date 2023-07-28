@@ -3,7 +3,7 @@
 #include "mbed.h"
 #include <stdint.h>
 
-namespace BHAS::Sensors {
+namespace BHAS::Drivers {
 
   class InternalTemperature {
 
