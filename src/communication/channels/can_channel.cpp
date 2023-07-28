@@ -20,6 +20,8 @@ namespace BHAS::Communication::Channels {
     memcpy(buffer+3, message.payload(), message.payload_size());
 
     int result = _canBus.write(CANMessage(message.source_id(), buffer, 3+message.payload_size()));
+
+    // TODO: Check result + what if fails ? Do we create internal buffer for messages that need to be send ?
   
     call_send_handlers(message);
 

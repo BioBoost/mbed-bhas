@@ -11,11 +11,13 @@ namespace BHAS::Nodes {
   }
 
   void FourSwitchNode::handle_received_message(Communication::Message& message) const {
+    if (message.destination_id() != id() && message.destination_id() != Node::BROADCAST_ID) return;
+
     // TODO: Handle message
   }
 
   void FourSwitchNode::handle_send_message(Communication::Message& message) const {
-    // No implementation
+    // Ignore send messages
   }
 
   void FourSwitchNode::button_pressed(Events::EventContext* context, Entities::PushButton::PressType type) {

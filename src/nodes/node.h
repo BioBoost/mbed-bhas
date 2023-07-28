@@ -35,6 +35,9 @@ namespace BHAS::Nodes {
       void setup_channel_logging();
       void setup_channel_processing();
 
+    public:
+      static const uint8_t BROADCAST_ID = 255;
+
     private:
       uint8_t _id = 0;
       uint8_t _gatewayId = 0;

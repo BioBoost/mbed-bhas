@@ -2,7 +2,6 @@
 
 namespace BHAS::Communication::Channels {
 
-
   bool LocalEchoChannel::send(Message& message) {
     _messageBuffer.push(message);
     call_send_handlers(message);
