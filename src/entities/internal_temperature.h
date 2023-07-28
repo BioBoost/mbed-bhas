@@ -14,14 +14,14 @@ namespace BHAS::Entities {
       InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime = 60s);
 
     public:
-      void on_temperature(Callback<void(BHAS::Events::EventContext&,int8_t)> eventCallback);
+      void on_temperature(Callback<void(BHAS::Events::EventContext*,int8_t)> eventCallback);
 
     private:
       void notify_temperature();
 
     private:
       BHAS::Sensors::InternalTemperature _internalTemperatureSensor;
-      Callback<void(BHAS::Events::EventContext&,int8_t)> _onTemperature;
+      Callback<void(BHAS::Events::EventContext*,int8_t)> _onTemperature;
 
   };
 

@@ -17,8 +17,8 @@ namespace BHAS::Entities {
 
     public:
       // Why still pass type? Allow upper code to register single handler or two separate
-      void on_short_press(Callback<void(BHAS::Events::EventContext&, PressType)> eventCallback);
-      void on_long_press(Callback<void(BHAS::Events::EventContext&, PressType)> eventCallback);
+      void on_short_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback);
+      void on_long_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback);
 
     private:
       void falling_edge();
@@ -33,8 +33,8 @@ namespace BHAS::Entities {
       Timer _timer;
       EventQueue& _queue;
 
-      Callback<void(BHAS::Events::EventContext&, PressType)> _onShortPress;
-      Callback<void(BHAS::Events::EventContext&, PressType)> _onLongPress;
+      Callback<void(BHAS::Events::EventContext*, PressType)> _onShortPress;
+      Callback<void(BHAS::Events::EventContext*, PressType)> _onLongPress;
 
   };
 

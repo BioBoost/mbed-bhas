@@ -28,15 +28,15 @@ namespace BHAS::Logging {
       static const char* message_type_as_string(Communication::Message::Type type) {
         using Communication::Message;
         switch(type) {
-          case Message::Type::NONE: return "NONE";
-          case Message::Type::HELLO: return "HELLO";
-          case Message::Type::EVENT: return "EVENT";
-          case Message::Type::ALERT: return "ALERT";
-          case Message::Type::CONFIG: return "CONFIG";
-          case Message::Type::PERIOD: return "PERIOD";
-          case Message::Type::WARNING: return "WARNING";
-          case Message::Type::ERROR: return "ERROR";
-          case Message::Type::ALIVE: return "ALIVE";
+          case Message::Type::NONE:     return "NONE";
+          case Message::Type::HELLO:    return "HELLO";
+          case Message::Type::EVENT:    return "EVENT";
+          case Message::Type::ALERT:    return "ALERT";
+          case Message::Type::CONFIG:   return "CONFIG";
+          case Message::Type::PERIODIC: return "PERIOD";
+          case Message::Type::WARNING:  return "WARNING";
+          case Message::Type::ERROR:    return "ERROR";
+          case Message::Type::ALIVE:    return "ALIVE";
           default: return "?UNKNOWN_MESSAGE_TYPE?";
         }
       }

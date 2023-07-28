@@ -25,9 +25,6 @@ namespace BHAS::Communication::Channels {
       void call_send_handlers(Message& message);
 
     private:
-      void call_handlers(std::vector<IMessageHandler*>& handlers, Message& message);
-
-    private:
       std::vector<IMessageHandler*> _receiveHandlers;
       std::vector<IMessageHandler*> _sendHandlers;
 

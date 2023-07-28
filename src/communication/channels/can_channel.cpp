@@ -1,3 +1,7 @@
+#if !DEVICE_CAN
+#warning [NOT_SUPPORTED] CAN not supported for this target
+#elif
+
 #include "can_channel.h"
 #include "mbed.h"
 #include "InterfaceCAN.h"
@@ -39,3 +43,5 @@ namespace BHAS::Communication::Channels {
   }
 
 };
+
+#endif

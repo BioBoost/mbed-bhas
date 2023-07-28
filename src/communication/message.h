@@ -9,15 +9,15 @@ namespace BHAS::Communication {
 
     public:
       enum class Type : uint8_t {
-        NONE =    0x00,
-        HELLO =   0x01,
-        EVENT =   0x02,
-        ALERT =   0x03,
-        CONFIG =  0x04,
-        PERIOD =  0x05,
-        WARNING = 0x06,
-        ERROR =   0x07,
-        ALIVE =   0x08
+        NONE =      0x00,
+        HELLO =     0x01,
+        EVENT =     0x02,
+        ALERT =     0x03,
+        CONFIG =    0x04,
+        PERIODIC =  0x05,
+        WARNING =   0x06,
+        ERROR =     0x07,
+        ALIVE =     0x08
       };
 
     public:

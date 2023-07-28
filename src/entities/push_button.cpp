@@ -9,11 +9,11 @@ namespace BHAS::Entities {
     _button.rise(callback(this, &PushButton::rising_edge));
   }
 
-  void PushButton::on_short_press(Callback<void(BHAS::Events::EventContext&, PressType)> eventCallback) {
+  void PushButton::on_short_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback) {
     _onShortPress = eventCallback;
   }
 
-  void PushButton::on_long_press(Callback<void(BHAS::Events::EventContext&, PressType)> eventCallback) {
+  void PushButton::on_long_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback) {
     _onLongPress = eventCallback;
   }
 
@@ -35,8 +35,8 @@ namespace BHAS::Entities {
   void PushButton::notify_press(PressType type) {
     BHAS::Events::EventContext context(*this);
 
-    if (type == PressType::SHORT && _onShortPress) _onShortPress.call(context, type);
-    else if (type == PressType::LONG && _onLongPress) _onLongPress.call(context, type);
+    if (type == PressType::SHORT && _onShortPress) _onShortPress.call(&context, type);
+    else if (type == PressType::LONG && _onLongPress) _onLongPress.call(&context, type);
   }
 
 };
