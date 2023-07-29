@@ -33,6 +33,7 @@ namespace BHAS::Communication {
     MBED_ASSERT(size <= Message::MAX_PAYLOAD_SIZE);
 
     memcpy(_payload, payload, size);
+    _payloadSize = size;
   }
 
   uint8_t Message::source_id() const {
