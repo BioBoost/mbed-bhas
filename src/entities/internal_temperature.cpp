@@ -2,8 +2,8 @@
 
 namespace BHAS::Entities {
 
-  InternalTemperature::InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime)
-    : Entity(id) {
+  InternalTemperature::InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime, std::string description)
+    : Entity(id, description) {
 
     queue.call_every(updateTime, callback(this, &InternalTemperature::notify_temperature));
   }
@@ -17,6 +17,10 @@ namespace BHAS::Entities {
       BHAS::Events::EventContext context(*this);
       _onTemperature.call(&context, _internalTemperatureSensor.temperature());
     }
+  }
+
+  std::string InternalTemperature::to_string() const {
+    return Entity::to_string() + " - type: InternalTemperature";
   }
 
 };

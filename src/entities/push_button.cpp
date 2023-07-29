@@ -2,8 +2,8 @@
 
 namespace BHAS::Entities {
 
-  PushButton::PushButton(uint8_t id, EventQueue& queue, PinName pin)
-    : Entity(id), _queue(queue), _button(pin) {
+  PushButton::PushButton(uint8_t id, EventQueue& queue, PinName pin, std::string description)
+    : Entity(id, description), _queue(queue), _button(pin) {
 
     _button.fall(callback(this, &PushButton::falling_edge));
     _button.rise(callback(this, &PushButton::rising_edge));
@@ -37,6 +37,10 @@ namespace BHAS::Entities {
 
     if (type == PressType::SHORT && _onShortPress) _onShortPress.call(&context, type);
     else if (type == PressType::LONG && _onLongPress) _onLongPress.call(&context, type);
+  }
+
+  std::string PushButton::to_string() const {
+    return Entity::to_string() + " - type: PushButton";
   }
 
 };

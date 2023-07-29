@@ -2,8 +2,8 @@
 
 namespace BHAS::Entities {
 
-  Led::Led(uint8_t id, PinName pin)
-    : Entity(id), _led(pin) {
+  Led::Led(uint8_t id, PinName pin, std::string description)
+    : Entity(id, description), _led(pin) {
   }
 
   void Led::on() {
@@ -16,6 +16,10 @@ namespace BHAS::Entities {
 
   void Led::toggle() {
     _led = !_led;
+  }
+
+  std::string Led::to_string() const {
+    return Entity::to_string() + " - type: Led";
   }
 
 };

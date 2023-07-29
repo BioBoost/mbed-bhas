@@ -13,7 +13,7 @@ namespace BHAS::Entities {
       enum class PressType { SHORT, LONG };
 
     public:
-      PushButton(uint8_t id, EventQueue& queue, PinName pin);
+      PushButton(uint8_t id, EventQueue& queue, PinName pin, std::string description = "");
 
     public:
       // Why still pass type? Allow upper code to register single handler or two separate
@@ -27,6 +27,9 @@ namespace BHAS::Entities {
 
     private:
       void notify_press(PressType type);
+
+    public:
+      virtual std::string to_string() const override;
 
     private:
       InterruptIn _button;

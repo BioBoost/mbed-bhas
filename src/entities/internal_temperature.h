@@ -11,13 +11,16 @@ namespace BHAS::Entities {
   class InternalTemperature : public Entity {
 
     public:
-      InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime = 60s);
+      InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime = 60s, std::string description = "");
 
     public:
       void on_temperature(Callback<void(BHAS::Events::EventContext*,int8_t)> eventCallback);
 
     private:
       void notify_temperature();
+
+    public:
+      virtual std::string to_string() const override;
 
     private:
       BHAS::Drivers::InternalTemperature _internalTemperatureSensor;

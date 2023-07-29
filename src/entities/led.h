@@ -9,12 +9,15 @@ namespace BHAS::Entities {
   class Led : public Entity {
 
     public:
-      Led(uint8_t id, PinName pin);
+      Led(uint8_t id, PinName pin, std::string description = "");
 
     public:
       void on();
       void off();
       void toggle();
+
+    public:
+      virtual std::string to_string() const override;
 
     private:
       DigitalOut _led;
