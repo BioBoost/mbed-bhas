@@ -20,7 +20,7 @@ namespace BHAS::Nodes {
       uint8_t gateway_id() const;
 
     public:
-      void take_over();
+      void dispatch_forever();
 
     protected:
       Communication::Channels::Channel& channel();

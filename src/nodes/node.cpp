@@ -18,7 +18,7 @@ namespace BHAS::Nodes {
     return _gatewayId;
   }
 
-  void Node::take_over() {
+  void Node::dispatch_forever() {
     _eventQueue.dispatch_forever();
   }
 

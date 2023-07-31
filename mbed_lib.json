@@ -4,7 +4,8 @@
     "mbed-trace",
     "flashiap-block-device",
     "tdbstore",
-    "kvstore"
+    "kvstore",
+    "commander"
   ],
   "config": {
     "push_button_short_press_threshold_ms": {

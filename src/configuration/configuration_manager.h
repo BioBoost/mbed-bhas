@@ -6,7 +6,7 @@
 #include "FlashIAPBlockDevice.h"
 #include "TDBStore.h"
 
-namespace BHAS::Config {
+namespace BHAS {
 
   class ConfigurationManager {
 
@@ -28,6 +28,9 @@ namespace BHAS::Config {
       uint8_t gateway_id();
       void gateway_id(uint8_t id);
 
+      bool double_reset();
+      void set_double_reset();
+      void clear_double_reset();
 
     private:
       void increment_boot_count();
@@ -47,8 +50,9 @@ namespace BHAS::Config {
       static constexpr const char* NODE_ID_KEY = "id";
       static constexpr const char* BOOTCOUNT_KEY = "bc";
       static constexpr const char* GATEWAY_ID_KEY = "gid";
+      static constexpr const char* DOUBLE_RESET_KEY = "drk";
 
-      static const uint8_t CURRENT_CONFIG_ID = 0x02;     // Basically version of config. Update if params change!
+      static const uint8_t CURRENT_CONFIG_ID = 0x03;     // Basically version of config. Update if params change!
 
       static const uint8_t DEFAULT_NODE_ID = 1;
       static const uint8_t DEFAULT_GATEWAY_ID = 0;

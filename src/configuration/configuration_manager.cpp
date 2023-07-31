@@ -7,7 +7,7 @@
 
 #define TRACE_GROUP "BHAS ConfigurationManager"
 
-namespace BHAS::Config {
+namespace BHAS {
 
   ConfigurationManager::ConfigurationManager()
     : _flashBlockDevice(), _kvStore(&_flashBlockDevice) {
@@ -71,6 +71,7 @@ namespace BHAS::Config {
     // Set the defaults
     node_id(DEFAULT_NODE_ID);
     gateway_id(DEFAULT_GATEWAY_ID);
+    clear_double_reset();
   }
 
   uint32_t ConfigurationManager::boot_count() {
@@ -116,6 +117,25 @@ namespace BHAS::Config {
 
   void ConfigurationManager::config_id(uint8_t id) {
     _kvStore.set(CONFIG_ID_KEY, &id, sizeof(id), 0);
+  }
+
+  bool ConfigurationManager::double_reset() {
+    uint8_t doubleReset;
+    _kvStore.get(DOUBLE_RESET_KEY, &doubleReset, sizeof(doubleReset));
+    tr_debug("Double reset value: %d", doubleReset);
+    return doubleReset >= 1;
+  }
+
+  void ConfigurationManager::set_double_reset() {
+    uint8_t doubleReset;
+    _kvStore.get(DOUBLE_RESET_KEY, &doubleReset, sizeof(doubleReset));
+    doubleReset++;
+    _kvStore.set(DOUBLE_RESET_KEY, &doubleReset, sizeof(doubleReset), 0);
+  }
+
+  void ConfigurationManager::clear_double_reset() {
+    uint8_t doubleReset = 0;
+    _kvStore.set(DOUBLE_RESET_KEY, &doubleReset, sizeof(doubleReset), 0);
   }
 
 };
