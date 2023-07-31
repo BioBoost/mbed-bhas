@@ -1,11 +1,13 @@
 #include "entity_manager.h"
+#include "mbed_trace.h"
+
+#define TRACE_GROUP "BHAS EntityManager"
 
 namespace BHAS {
 
   void EntityManager::add(Entities::Entity* entity) {
     if(find_by_id(entity->id())) {
-      // Already exists !
-      // TODO: Generate error
+      tr_error("Entity with id = [%d] already registered", entity->id());
       return;
     }
     _entities.push_back(entity);

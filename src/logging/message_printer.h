@@ -37,7 +37,7 @@ namespace BHAS::Logging {
           case Message::Type::WARNING:  return "WARNING";
           case Message::Type::ERROR:    return "ERROR";
           case Message::Type::ALIVE:    return "ALIVE";
-          default: return "?UNKNOWN_MESSAGE_TYPE?";
+          default: return "UNKNOWN";
         }
       }
 

@@ -5,11 +5,16 @@
 #include "can_channel.h"
 #include "mbed.h"
 #include "InterfaceCAN.h"
+#include "mbed_trace.h"
+
+#define TRACE_GROUP "BHAS CANChannel"
 
 namespace BHAS::Communication::Channels {
 
   CANChannel::CANChannel(CAN& canBus)
     :_canBus(canBus) {
+
+    tr_info("Creating CAN channel");
   }
 
   bool CANChannel::send(Message& message) {

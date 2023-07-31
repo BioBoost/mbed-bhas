@@ -1,6 +1,8 @@
 {
   "name": "bhas",
-  "requires": [],
+  "requires": [
+    "mbed-trace"
+  ],
   "config": {
     "push_button_short_press_threshold_ms": {
       "help": "Time (in ms) that a press is still considered a short press",
