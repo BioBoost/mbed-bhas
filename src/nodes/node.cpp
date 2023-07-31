@@ -1,5 +1,4 @@
 #include "node.h"
-
 #include "mbed.h"
 
 namespace BHAS::Nodes {

@@ -1,12 +1,21 @@
 {
   "name": "bhas",
   "requires": [
-    "mbed-trace"
+    "mbed-trace",
+    "flashiap-block-device",
+    "tdbstore",
+    "kvstore"
   ],
   "config": {
     "push_button_short_press_threshold_ms": {
       "help": "Time (in ms) that a press is still considered a short press",
       "value": 250
+    }
+  },
+  "target_overrides": {
+    "*": {
+      "target.components_add": ["FLASH", "FLASHIAP"],
+      "target.features_add": ["STORAGE"]
     }
   }
 }

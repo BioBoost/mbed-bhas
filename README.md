@@ -49,3 +49,40 @@ Entities are the building blocks of a node. They represent an abstraction of a s
 ## Drivers
 
 Drivers contain the hardware dependant code for sensors/actuators/...
+
+## Configuration Storage
+
+### L073RZ
+
+Features:
+
+* 192 KB Flash
+* 20 KB SRAM
+* Flash = 48 sectors, where 1 sector = 4KB (128 bytes * 32 pages)
+
+Basically you need to allocate multiple of sector size as sector is is the minimal erase size.
+
+See [STM32L0x3 Manual @ page 68](https://www.st.com/resource/en/reference_manual/rm0367-ultralowpower-stm32l0x3-advanced-armbased-32bit-mcus-stmicroelectronics.pdf) for more info
+
+* `MBED_ROM_START`: `0x08000000`
+* `MBED_ROM_SIZE`: `0x30000` (192 KB)
+
+[Ch. Tronche](https://tronche.com/blog/2020/03/mbed-flashiap-tdbstore-and-stm32f4-internal-flash/) claims that the underlying TDBStore needs twice the space (multiple of sectors) as it keeps two databases. Basically to cover power failure. Found no actual info on this in the Mbed docs. Needs to be investigated further. Taking two sectors just to be sure for the moment.
+
+So:
+
+* Config size: `8 * 1024 = 8192 bytes`
+* Start of storage: `0x08000000 + 0x30000 - 8192`
+* Max size of bin: `0x30000 - 8192 = 0x2E000` (about 188 KB which, currently using about 38 KB)
+
+## Errors
+
+For some reason I can't seem to override the storage size in `mbed_lib.json`. Adding this fails:
+
+```json
+  "NUCLEO_L073RZ": {
+    "flashiap-block-device.size": "(8*1024)",
+    "flashiap-block-device.base-address": "(MBED_ROM_START + MBED_ROM_SIZE - (8*1024))",
+    "target.restrict_size": "0x2E000"
+  }
+```
