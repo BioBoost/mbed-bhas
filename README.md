@@ -86,3 +86,7 @@ For some reason I can't seem to override the storage size in `mbed_lib.json`. Ad
     "target.restrict_size": "0x2E000"
   }
 ```
+
+## Dependencies
+
+* [commander](https://github.com/BioBoost/mbed-commander): Serial commander library (special thanks @ [sillevl](https://github.com/sillevl))

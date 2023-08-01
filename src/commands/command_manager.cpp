@@ -3,6 +3,7 @@
 #include "version_command.h"
 #include "reset_command.h"
 #include "node_id_command.h"
+#include "gateway_id_command.h"
 
 namespace BHAS {
 
@@ -11,6 +12,7 @@ namespace BHAS {
 
     _commander.addCommand(new Commands::ResetCommand("RESET"));
     _commander.addCommand(new Commands::NodeIdCommand("NODEID", config));
+    _commander.addCommand(new Commands::GatewayId("GWID", config));
     _commander.addCommand(new Commands::VersionCommand("VERSION"));
   }
 

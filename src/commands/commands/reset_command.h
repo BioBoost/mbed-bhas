@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Commander.h"
+#include "mbed.h"
 #include "mbed_trace.h"
 
 #define TRACE_GROUP "BHAS COMMANDS"
