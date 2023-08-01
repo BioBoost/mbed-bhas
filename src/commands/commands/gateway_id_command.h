@@ -23,7 +23,7 @@ namespace BHAS::Commands {
         uint8_t gatewayId = strtol(argument.data(), NULL, 10);
         _config.gateway_id(gatewayId);
         return Command::SUCCESS_MESSAGE;
-      } 
+      }
 
     private:
       ConfigurationManager& _config;

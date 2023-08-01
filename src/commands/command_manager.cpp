@@ -4,6 +4,7 @@
 #include "reset_command.h"
 #include "node_id_command.h"
 #include "gateway_id_command.h"
+#include "factory_reset_command.h"
 
 namespace BHAS {
 
@@ -14,6 +15,7 @@ namespace BHAS {
     _commander.addCommand(new Commands::NodeIdCommand("NODEID", config));
     _commander.addCommand(new Commands::GatewayId("GWID", config));
     _commander.addCommand(new Commands::VersionCommand("VERSION"));
+    _commander.addCommand(new Commands::FactoryResetCommand("FACTORYRESET", config));
   }
 
   void CommandManager::dispatch() {

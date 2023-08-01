@@ -40,14 +40,14 @@ namespace BHAS {
       tr_warning("No configuration found.");
       factory_reset();
       tr_debug("Resetting the device");
-      ThisThread::sleep_for(2s);
+      ThisThread::sleep_for(500ms);
       NVIC_SystemReset();
     } else if (config_id() < CURRENT_CONFIG_ID) {
       tr_warning("Configuration in Flash is outdated.");
       // TODO: Upgrade procedure ?
       factory_reset();
       tr_debug("Resetting the device");
-      ThisThread::sleep_for(2s);
+      ThisThread::sleep_for(500ms);
       NVIC_SystemReset();
     }
 
