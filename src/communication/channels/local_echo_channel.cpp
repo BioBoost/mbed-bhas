@@ -1,6 +1,13 @@
 #include "local_echo_channel.h"
+#include "mbed_trace.h"
+
+#define TRACE_GROUP "BHAS LocalEchoChannel"
 
 namespace BHAS::Communication::Channels {
+
+  LocalEchoChannel::LocalEchoChannel() {
+    tr_info("Creating LocalEchoChannel");
+  }
 
   bool LocalEchoChannel::send(Message& message) {
     _messageBuffer.push(message);
