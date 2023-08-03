@@ -1,6 +1,6 @@
 #if !DEVICE_CAN
 #warning [NOT_SUPPORTED] CAN not supported for this target
-#elif
+#else
 
 #include "can_channel.h"
 #include "mbed.h"
@@ -14,7 +14,7 @@ namespace BHAS::Communication::Channels {
   CANChannel::CANChannel(CAN& canBus)
     :_canBus(canBus) {
 
-    tr_info("Creating CAN channel");
+    tr_info("Creating CANChannel");
   }
 
   bool CANChannel::send(Message& message) {

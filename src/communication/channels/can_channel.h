@@ -2,7 +2,7 @@
 
 #if !DEVICE_CAN
 #warning [NOT_SUPPORTED] CAN not supported for this target
-#elif
+#else
 
 #include "InterfaceCAN.h"
 #include "mbed.h"
