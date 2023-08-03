@@ -75,6 +75,27 @@ So:
 * Start of storage: `0x08000000 + 0x30000 - 8192`
 * Max size of bin: `0x30000 - 8192 = 0x2E000` (about 188 KB which, currently using about 38 KB)
 
+### L476RG
+
+Features:
+
+* 1MB Flash
+* 128 KB SRAM
+* 256 pages of 2 KB each (2 banks)
+
+Minimal erase size = 2 KB. So need to allocate multiples of this.
+
+See [STM32L47xxxx Manual @ page 97](https://www.st.com/resource/en/reference_manual/rm0351-stm32l47xxx-stm32l48xxx-stm32l49xxx-and-stm32l4axxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf) for more info
+
+* `MBED_ROM_START`: `0x8000000`
+* `MBED_ROM_SIZE`: `0x100000` (1.0 MB)
+
+So:
+
+* Config size: `8 * 1024 = 8192 bytes`
+* Start of storage: `0x08000000 + 0x100000 - 8192`
+* Max size of bin: `0x100000 - 8192 = 0xFE000`
+
 ## Errors
 
 For some reason I can't seem to override the storage size in `mbed_lib.json`. Adding this fails:
