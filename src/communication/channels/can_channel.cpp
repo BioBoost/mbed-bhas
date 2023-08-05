@@ -19,12 +19,12 @@ namespace BHAS::Communication::Channels {
 
   bool CANChannel::send(Message& message) {
     char buffer[MAX_CAN_PACKET_SIZE] = { 0 };
-    buffer[0] = message.destination_id();
+    buffer[0] = message.source_id();
     buffer[1] = message.entity_id();
     buffer[2] = static_cast<char>(message.type());
     memcpy(buffer+3, message.payload(), message.payload_size());
 
-    int result = _canBus.write(CANMessage(message.source_id(), buffer, 3+message.payload_size()));
+    int result = _canBus.write(CANMessage(message.destination_id(), buffer, 3+message.payload_size()));
 
     // TODO: Check result + what if fails ? Do we create internal buffer for messages that need to be send ?
   
