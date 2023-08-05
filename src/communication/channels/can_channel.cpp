@@ -6,6 +6,7 @@
 #include "mbed.h"
 #include "InterfaceCAN.h"
 #include "mbed_trace.h"
+#include "can_encoder.h"
 
 #define TRACE_GROUP "BHAS CANChannel"
 
@@ -18,13 +19,9 @@ namespace BHAS::Communication::Channels {
   }
 
   bool CANChannel::send(Message& message) {
-    char buffer[MAX_CAN_PACKET_SIZE] = { 0 };
-    buffer[0] = message.source_id();
-    buffer[1] = message.entity_id();
-    buffer[2] = static_cast<char>(message.type());
-    memcpy(buffer+3, message.payload(), message.payload_size());
-
-    int result = _canBus.write(CANMessage(message.destination_id(), buffer, 3+message.payload_size()));
+    int result = _canBus.write(
+      Encoders::CANEncoder::message_to_mbed_can_message(message)
+    );
 
     // TODO: Check result + what if fails ? Do we create internal buffer for messages that need to be send ?
   
@@ -36,15 +33,9 @@ namespace BHAS::Communication::Channels {
   void CANChannel::receive() {
     CANMessage rawMessage;
     if (_canBus.read(rawMessage)) {
-      // Ignore message if minimal fields are missing
-      if (rawMessage.len < 3) return;
+      if (rawMessage.len < 3) return;   // Ignore message if minimal fields are missing
 
-      Message message;
-      message.source_id(rawMessage.id);
-      message.destination_id(rawMessage.data[0]);
-      message.entity_id(rawMessage.data[1]);
-      message.type(static_cast<Message::Type>(rawMessage.data[2]));
-
+      Message message = Encoders::CANEncoder::mbed_can_message_to_message(rawMessage);
       call_receive_handlers(message);
     }
   }
