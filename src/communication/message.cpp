@@ -29,7 +29,7 @@ namespace BHAS::Communication {
     _type = type;
   }
 
-  void Message::payload(const char * payload, size_t size) {
+  void Message::payload(const uint8_t * payload, size_t size) {
     MBED_ASSERT(size <= Message::MAX_PAYLOAD_SIZE);
 
     memcpy(_payload, payload, size);
@@ -52,7 +52,7 @@ namespace BHAS::Communication {
     return _type;
   }
 
-  const char * Message::payload() const {
+  const uint8_t * Message::payload() const {
     return _payload;
   }
 

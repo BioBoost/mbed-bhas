@@ -29,14 +29,14 @@ namespace BHAS::Communication {
       void destination_id(uint8_t id);
       void entity_id(uint8_t id);
       void type(Message::Type type);
-      void payload(const char * payload, size_t size);
+      void payload(const uint8_t * payload, size_t size);
 
     public:
       uint8_t source_id() const;
       uint8_t destination_id() const;
       uint8_t entity_id() const;
       Message::Type type() const;
-      const char * payload() const;
+      const uint8_t * payload() const;
       size_t payload_size() const;
 
     private:
@@ -47,7 +47,7 @@ namespace BHAS::Communication {
 
       static const size_t MAX_PAYLOAD_SIZE = 5;     // TODO: CAN property ! Should not be dependency here !
 
-      char _payload[MAX_PAYLOAD_SIZE] = { 0 };
+      uint8_t _payload[MAX_PAYLOAD_SIZE] = { 0 };
       size_t _payloadSize = 0;
 
   };

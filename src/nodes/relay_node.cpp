@@ -31,7 +31,7 @@ namespace BHAS::Nodes {
   void RelayNode::temperature_ready(Events::EventContext* context, int8_t temperature) {
     Communication::Message message(id(), gateway_id(), context->entity().id(), Communication::Message::Type::PERIODIC);
 
-    char payload[] = { temperature };
+    uint8_t payload[] = { static_cast<uint8_t>(temperature) };
     message.payload(payload, sizeof(payload));
 
     channel().send(message);
