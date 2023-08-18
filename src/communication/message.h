@@ -10,7 +10,7 @@ namespace BHAS::Communication {
     public:
       enum class Type : uint8_t {
         NONE =      0x00,
-        HELLO =     0x01,
+        BOOT =      0x01,
         EVENT =     0x02,
         ALERT =     0x03,
         CONFIG =    0x04,

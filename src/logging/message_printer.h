@@ -29,7 +29,7 @@ namespace BHAS::Logging {
         using Communication::Message;
         switch(type) {
           case Message::Type::NONE:     return "NONE";
-          case Message::Type::HELLO:    return "HELLO";
+          case Message::Type::BOOT:     return "BOOT";
           case Message::Type::EVENT:    return "EVENT";
           case Message::Type::ALERT:    return "ALERT";
           case Message::Type::CONFIG:   return "CONFIG";

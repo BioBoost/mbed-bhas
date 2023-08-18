@@ -14,6 +14,7 @@ namespace BHAS::Entities {
       InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime = 60s, std::string description = "");
 
     public:
+      // Register callback (in Node) to report temperature to
       void on_temperature(Callback<void(BHAS::Events::EventContext*,int8_t)> eventCallback);
 
     private:

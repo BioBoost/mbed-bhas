@@ -17,6 +17,9 @@ namespace BHAS::Nodes {
     public:
       RelayNode(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel);
 
+    public:
+      virtual void dispatch_forever();
+
     protected:
       void handle_received_message(Communication::Message& message) const override;
       void handle_send_message(Communication::Message& message) const override;
@@ -27,6 +30,9 @@ namespace BHAS::Nodes {
     private:
       void setup_temperature();
       void setup_relays();
+
+    private:
+      void send_can_boot_message();
 
   };
 

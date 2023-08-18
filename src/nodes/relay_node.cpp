@@ -15,6 +15,11 @@ namespace BHAS::Nodes {
     setup_temperature();
   }
 
+  void RelayNode::dispatch_forever() {
+    send_can_boot_message();
+    Node::dispatch_forever();
+  }
+
   void RelayNode::handle_received_message(Communication::Message& message) const {
     if (message.destination_id() != id() && message.destination_id() != Node::BROADCAST_ID) {
       tr_debug("Ignoring message");
@@ -54,4 +59,12 @@ namespace BHAS::Nodes {
     entities().add(temperature);
   }
 
+  // TODO: Refactor - duplicate in FourSwitchNode
+  void RelayNode::send_can_boot_message() {
+    Communication::Message message(id(), gateway_id(), 0, Communication::Message::Type::BOOT);
+    channel().send(message);
+  }
+
 };
+
+// TODO: AliveTimer not implemented yet

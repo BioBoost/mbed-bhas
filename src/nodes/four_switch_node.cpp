@@ -1,4 +1,5 @@
 #include "four_switch_node.h"
+#include "alive_timer.h"
 #include "mbed_trace.h"
 
 #define TRACE_GROUP "BHAS FourSwitchNode"
@@ -14,6 +15,12 @@ namespace BHAS::Nodes {
     setup_buttons();
     setup_leds();
     setup_temperature();
+    setup_alive_timer();
+  }
+
+  void FourSwitchNode::dispatch_forever() {
+    send_can_boot_message();
+    Node::dispatch_forever();
   }
 
   void FourSwitchNode::handle_received_message(Communication::Message& message) const {
@@ -47,6 +54,20 @@ namespace BHAS::Nodes {
     channel().send(message);
   }
 
+  void FourSwitchNode::alive_ready(Events::EventContext* context, uint32_t seconds) {
+    Communication::Message message(id(), gateway_id(), context->entity().id(), Communication::Message::Type::ALIVE);
+
+    uint8_t payload[] = {
+      static_cast<uint8_t>((seconds >> 24) & 0xFF),
+      static_cast<uint8_t>((seconds >> 16) & 0xFF),
+      static_cast<uint8_t>((seconds >> 8) & 0xFF),
+      static_cast<uint8_t>((seconds >> 0) & 0xFF),
+    };
+    message.payload(payload, sizeof(payload));
+
+    channel().send(message);
+  }
+
   void FourSwitchNode::setup_buttons() {
     PinName buttonPins[] = { PC_13, D8, D9, D10 };
 
@@ -74,6 +95,19 @@ namespace BHAS::Nodes {
     temperature->on_temperature(callback(this, &FourSwitchNode::temperature_ready));
     tr_info("Registering: %s", temperature->to_string().c_str());
     entities().add(temperature);
+  }
+
+  void FourSwitchNode::setup_alive_timer() {
+    Entities::AliveTimer * alive = new Entities::AliveTimer(60, queue());
+    alive->on_alive(callback(this, &FourSwitchNode::alive_ready));
+    tr_info("Registering: %s", alive->to_string().c_str());
+    entities().add(alive);
+  }
+
+  // TODO: Refactor - duplicate in RelayNode
+  void FourSwitchNode::send_can_boot_message() {
+    Communication::Message message(id(), gateway_id(), 0, Communication::Message::Type::BOOT);
+    channel().send(message);
   }
 
 };

@@ -23,6 +23,7 @@ namespace BHAS::Communication::Encoders {
 
         return CANMessage(message.destination_id(), buffer, 3+message.payload_size());
       }
+
       static Message mbed_can_message_to_message(const CANMessage& mbedMessage) {
         Message message;
         
