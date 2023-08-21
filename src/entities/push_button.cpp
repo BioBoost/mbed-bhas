@@ -9,17 +9,15 @@ namespace BHAS::Entities {
     _button.rise(callback(this, &PushButton::rising_edge));
   }
 
-  void PushButton::on_short_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback) {
-    _onShortPress = eventCallback;
-  }
-
-  void PushButton::on_long_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback) {
-    _onLongPress = eventCallback;
+  void PushButton::on_event(Callback<void(BHAS::Events::ButtonEvent&)> eventCallback) {
+    _onEvent = eventCallback;
   }
 
   void PushButton::falling_edge() {
     // This is ISR !
     _timer.start();
+
+    // TODO: DOWN event
   }
 
   void PushButton::rising_edge() {
@@ -28,15 +26,17 @@ namespace BHAS::Entities {
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(_timer.elapsed_time()).count();
     _timer.reset();
 
-    PressType type = (milliseconds <= MBED_CONF_BHAS_PUSH_BUTTON_SHORT_PRESS_THRESHOLD_MS ? PressType::SHORT : PressType::LONG);
+    Events::ButtonEvent::Type type = (milliseconds <= MBED_CONF_BHAS_PUSH_BUTTON_SHORT_PRESS_THRESHOLD_MS ? Events::ButtonEvent::Type::SHORT_PRESS : Events::ButtonEvent::Type::LONG_PRESS);
     _queue.call(callback(this, &PushButton::notify_press), type);   // Currently in ISR context ! Need to move to event queue
+
+    // TODO: UP event
   }
 
-  void PushButton::notify_press(PressType type) {
-    BHAS::Events::EventContext context(*this);
-
-    if (type == PressType::SHORT && _onShortPress) _onShortPress.call(&context, type);
-    else if (type == PressType::LONG && _onLongPress) _onLongPress.call(&context, type);
+  void PushButton::notify_press(Events::ButtonEvent::Type type) {
+    if (_onEvent) {
+      BHAS::Events::ButtonEvent event(*this, type);
+      _onEvent.call(event);
+    }
   }
 
   std::string PushButton::to_string() const {

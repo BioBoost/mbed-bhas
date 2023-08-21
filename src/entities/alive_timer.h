@@ -2,7 +2,7 @@
 
 #include "mbed.h"
 #include <stdint.h>
-#include "event_context.h"
+#include "alive_time_event.h"
 #include "entity.h"
 
 namespace BHAS::Entities {
@@ -13,8 +13,7 @@ namespace BHAS::Entities {
       AliveTimer(uint8_t id, EventQueue& queue, EventQueue::duration updateTime = 300s, std::string description = "");
 
     public:
-      // Register callback (in Node) to report time alive to
-      void on_alive(Callback<void(BHAS::Events::EventContext*, uint32_t)> eventCallback);
+      void on_alive(Callback<void(BHAS::Events::AliveTimeEvent&)> eventCallback);
 
     private:
       void notify_alive();
@@ -23,7 +22,7 @@ namespace BHAS::Entities {
       virtual std::string to_string() const override;
 
     private:
-      Callback<void(BHAS::Events::EventContext*, uint32_t)> _onAlive;
+      Callback<void(BHAS::Events::AliveTimeEvent&)> _onAlive;
 
   };
 

@@ -9,7 +9,8 @@
 #include "message.h"
 #include <stdint.h>
 #include "mbed.h"
-#include "event_context.h"
+#include "temperature_event.h"
+#include "alive_time_event.h"
 
 namespace BHAS::Nodes {
 
@@ -26,9 +27,9 @@ namespace BHAS::Nodes {
       void handle_send_message(Communication::Message& message) const override;
 
     private:
-      void button_pressed(Events::EventContext* context, Entities::PushButton::PressType type);
-      void temperature_ready(Events::EventContext* context, int8_t temperature);
-      void alive_ready(Events::EventContext* context, uint32_t seconds);
+      void button_event(BHAS::Events::ButtonEvent& event);
+      void temperature_ready(BHAS::Events::TemperatureEvent& event);
+      void alive_ready(BHAS::Events::AliveTimeEvent& event);
 
     private:
       void setup_buttons();

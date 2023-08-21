@@ -4,10 +4,12 @@
 
 namespace BHAS::Events {
 
-  class EventContext {
+  // Base class for more specific events
+
+  class Event {
 
     public:
-      EventContext(BHAS::Entities::Entity& entity)
+      Event(BHAS::Entities::Entity& entity)
         : _entity(entity) {
 
       }
@@ -15,6 +17,11 @@ namespace BHAS::Events {
     public:
       BHAS::Entities::Entity& entity() {
         return _entity;
+      }
+
+    public:
+      virtual std::string to_string() {
+        return "[Event] ...";
       }
 
     private:

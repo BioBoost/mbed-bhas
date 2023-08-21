@@ -8,15 +8,14 @@ namespace BHAS::Entities {
     queue.call_every(updateTime, callback(this, &AliveTimer::notify_alive));
   }
 
-  void AliveTimer::on_alive(Callback<void(BHAS::Events::EventContext*, uint32_t)> eventCallback) {
+  void AliveTimer::on_alive(Callback<void(BHAS::Events::AliveTimeEvent&)> eventCallback) {
     _onAlive = eventCallback;
   }
 
   void AliveTimer::notify_alive() {
     if (_onAlive) {
-      BHAS::Events::EventContext context(*this);
-      time_t seconds = time(NULL);
-      _onAlive.call(&context, static_cast<uint32_t>(seconds));
+      BHAS::Events::AliveTimeEvent event(*this, time(NULL));
+      _onAlive.call(event);
     }
   }
 

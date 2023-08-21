@@ -1,6 +1,7 @@
 #include "four_switch_node.h"
 #include "alive_timer.h"
 #include "mbed_trace.h"
+#include "event_convertor.h"
 
 #define TRACE_GROUP "BHAS FourSwitchNode"
 
@@ -36,35 +37,18 @@ namespace BHAS::Nodes {
     // Ignore send messages
   }
 
-  void FourSwitchNode::button_pressed(Events::EventContext* context, Entities::PushButton::PressType type) {
-    Communication::Message message(id(), gateway_id(), context->entity().id(), Communication::Message::Type::EVENT);
-
-    uint8_t payload[] = { static_cast<uint8_t>(type) };
-    message.payload(payload, sizeof(payload));
-
+  void FourSwitchNode::button_event(BHAS::Events::ButtonEvent& event) {
+    Communication::Message message = Events::EventConvertor::to_message(event, id(), gateway_id());
     channel().send(message);
   }
 
-  void FourSwitchNode::temperature_ready(Events::EventContext* context, int8_t temperature) {
-    Communication::Message message(id(), gateway_id(), context->entity().id(), Communication::Message::Type::PERIODIC);
-
-    uint8_t payload[] = { static_cast<uint8_t>(temperature) };
-    message.payload(payload, sizeof(payload));
-
+  void FourSwitchNode::temperature_ready(BHAS::Events::TemperatureEvent& event) {
+    Communication::Message message = Events::EventConvertor::to_message(event, id(), gateway_id());
     channel().send(message);
   }
 
-  void FourSwitchNode::alive_ready(Events::EventContext* context, uint32_t seconds) {
-    Communication::Message message(id(), gateway_id(), context->entity().id(), Communication::Message::Type::ALIVE);
-
-    uint8_t payload[] = {
-      static_cast<uint8_t>((seconds >> 24) & 0xFF),
-      static_cast<uint8_t>((seconds >> 16) & 0xFF),
-      static_cast<uint8_t>((seconds >> 8) & 0xFF),
-      static_cast<uint8_t>((seconds >> 0) & 0xFF),
-    };
-    message.payload(payload, sizeof(payload));
-
+  void FourSwitchNode::alive_ready(BHAS::Events::AliveTimeEvent& event) {
+    Communication::Message message = Events::EventConvertor::to_message(event, id(), gateway_id());
     channel().send(message);
   }
 
@@ -73,8 +57,7 @@ namespace BHAS::Nodes {
 
     for (size_t i = 0; i < sizeof(buttonPins)/sizeof(PinName); i++) {
       Entities::PushButton* button = new Entities::PushButton(10+i, queue(), buttonPins[i]);            // TODO: Better id generation !
-      button->on_short_press(callback(this, &FourSwitchNode::button_pressed));
-      button->on_long_press(callback(this, &FourSwitchNode::button_pressed));
+      button->on_event(callback(this, &FourSwitchNode::button_event));
       tr_info("Registering: %s", button->to_string().c_str());
       entities().add(button);
     }

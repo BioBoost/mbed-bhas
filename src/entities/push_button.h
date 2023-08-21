@@ -2,23 +2,18 @@
 
 #include "mbed.h"
 #include <stdint.h>
-#include "event_context.h"
 #include "entity.h"
+#include "button_event.h"
 
 namespace BHAS::Entities {
 
   class PushButton : public Entity {
 
     public:
-      enum class PressType { SHORT, LONG };
-
-    public:
       PushButton(uint8_t id, EventQueue& queue, PinName pin, std::string description = "");
 
     public:
-      // Why still pass type? Allow upper code to register single handler or two separate
-      void on_short_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback);
-      void on_long_press(Callback<void(BHAS::Events::EventContext*, PressType)> eventCallback);
+      void on_event(Callback<void(BHAS::Events::ButtonEvent&)> eventCallback);
 
     private:
       void falling_edge();
@@ -26,7 +21,7 @@ namespace BHAS::Entities {
 
 
     private:
-      void notify_press(PressType type);
+      void notify_press(Events::ButtonEvent::Type type);
 
     public:
       virtual std::string to_string() const override;
@@ -36,8 +31,7 @@ namespace BHAS::Entities {
       Timer _timer;
       EventQueue& _queue;
 
-      Callback<void(BHAS::Events::EventContext*, PressType)> _onShortPress;
-      Callback<void(BHAS::Events::EventContext*, PressType)> _onLongPress;
+      Callback<void(BHAS::Events::ButtonEvent&)> _onEvent;
 
   };
 

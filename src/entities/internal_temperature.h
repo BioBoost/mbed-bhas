@@ -2,7 +2,7 @@
 
 #include "mbed.h"
 #include <stdint.h>
-#include "event_context.h"
+#include "temperature_event.h"
 #include "entity.h"
 #include "drivers/internal_temperature_sensor.h"
 
@@ -14,8 +14,7 @@ namespace BHAS::Entities {
       InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime = 60s, std::string description = "");
 
     public:
-      // Register callback (in Node) to report temperature to
-      void on_temperature(Callback<void(BHAS::Events::EventContext*,int8_t)> eventCallback);
+      void on_temperature(Callback<void(BHAS::Events::TemperatureEvent&)> eventCallback);
 
     private:
       void notify_temperature();
@@ -25,7 +24,7 @@ namespace BHAS::Entities {
 
     private:
       BHAS::Drivers::InternalTemperature _internalTemperatureSensor;
-      Callback<void(BHAS::Events::EventContext*,int8_t)> _onTemperature;
+      Callback<void(BHAS::Events::TemperatureEvent&)> _onTemperature;
 
   };
 

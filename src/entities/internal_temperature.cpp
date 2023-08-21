@@ -8,14 +8,14 @@ namespace BHAS::Entities {
     queue.call_every(updateTime, callback(this, &InternalTemperature::notify_temperature));
   }
 
-  void InternalTemperature::on_temperature(Callback<void(BHAS::Events::EventContext*,int8_t)> eventCallback) {
+  void InternalTemperature::on_temperature(Callback<void(BHAS::Events::TemperatureEvent&)> eventCallback) {
     _onTemperature = eventCallback;
   }
 
   void InternalTemperature::notify_temperature() {
     if (_onTemperature) {
-      BHAS::Events::EventContext context(*this);
-      _onTemperature.call(&context, _internalTemperatureSensor.temperature());
+      BHAS::Events::TemperatureEvent event(*this, _internalTemperatureSensor.temperature());
+      _onTemperature.call(event);
     }
   }
 
