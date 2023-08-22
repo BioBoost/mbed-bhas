@@ -4,7 +4,6 @@
 #include "push_button.h"
 #include "led.h"
 #include "internal_temperature.h"
-#include "alive_timer.h"
 
 #define TRACE_GROUP "BHAS FourSwitchNode"
 
@@ -19,14 +18,13 @@ namespace BHAS::Nodes {
     setup_buttons();
     setup_leds();
     setup_temperature();
-    setup_alive_timer();
   }
 
   void FourSwitchNode::setup_buttons() {
     PinName buttonPins[] = { PC_13, D8, D9, D10 };
 
     for (size_t i = 0; i < sizeof(buttonPins)/sizeof(PinName); i++) {
-      Entities::PushButton* button = new Entities::PushButton(10+i, queue(), buttonPins[i]);            // TODO: Better id generation !
+      Entities::PushButton* button = new Entities::PushButton(entities().get_free_id(), queue(), buttonPins[i]);
       button->on_event(callback(this, &FourSwitchNode::event_handler));
       tr_info("Registering: %s", button->to_string().c_str());
       entities().add(button);
@@ -37,24 +35,17 @@ namespace BHAS::Nodes {
     PinName ledPins[] = { LED1 };
 
     for (size_t i = 0; i < sizeof(ledPins)/sizeof(PinName); i++) {
-      Entities::Led* led = new Entities::Led(20+i, ledPins[i]);            // TODO: Better id generation !
+      Entities::Led* led = new Entities::Led(entities().get_free_id(), ledPins[i]);
       tr_info("Registering: %s", led->to_string().c_str());
       entities().add(led);
     }
   }
 
   void FourSwitchNode::setup_temperature() {
-    Entities::InternalTemperature * temperature = new Entities::InternalTemperature(30, queue());
+    Entities::InternalTemperature * temperature = new Entities::InternalTemperature(entities().get_free_id(), queue());
     temperature->on_event(callback(this, &FourSwitchNode::event_handler));
     tr_info("Registering: %s", temperature->to_string().c_str());
     entities().add(temperature);
-  }
-
-  void FourSwitchNode::setup_alive_timer() {
-    Entities::AliveTimer * alive = new Entities::AliveTimer(60, queue(), 20s);
-    alive->on_event(callback(this, &FourSwitchNode::event_handler));
-    tr_info("Registering: %s", alive->to_string().c_str());
-    entities().add(alive);
   }
 
 };

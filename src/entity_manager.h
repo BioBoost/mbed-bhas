@@ -13,6 +13,7 @@ namespace BHAS {
 
     public:
       Entities::Entity* find_by_id(uint8_t id);
+      uint8_t get_free_id();
 
     private:
       std::vector<Entities::Entity*> _entities;

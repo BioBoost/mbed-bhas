@@ -36,6 +36,7 @@ namespace BHAS {
       void setup_channel_logging();
       void setup_channel_processing();
       void setup_system();
+      void setup_alive_timer();
 
     protected:
       void event_handler(Event& event);

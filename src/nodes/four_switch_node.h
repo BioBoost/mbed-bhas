@@ -16,7 +16,6 @@ namespace BHAS::Nodes {
       void setup_buttons();
       void setup_leds();
       void setup_temperature();
-      void setup_alive_timer();
 
   };
 

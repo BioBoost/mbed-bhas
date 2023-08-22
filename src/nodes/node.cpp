@@ -2,6 +2,7 @@
 #include "mbed.h"
 #include "mbed_trace.h"
 #include "system.h"
+#include "alive_timer.h"
 
 #define TRACE_GROUP "BHAS Node"
 
@@ -12,6 +13,8 @@ namespace BHAS {
 
     setup_channel_logging();
     setup_channel_processing();
+    setup_system();
+    setup_alive_timer();
   }
 
   uint8_t Node::id() const {
@@ -51,10 +54,17 @@ namespace BHAS {
   }
 
   void Node::setup_system() {
-    Entities::System * system = new Entities::System(1, queue());
+    Entities::System * system = new Entities::System(entities().get_free_id(), queue());
     system->on_event(callback(this, &Node::event_handler));
     tr_info("Registering: %s", system->to_string().c_str());
     entities().add(system);
+  }
+
+  void Node::setup_alive_timer() {
+    Entities::AliveTimer * alive = new Entities::AliveTimer(entities().get_free_id(), queue());
+    alive->on_event(callback(this, &Node::event_handler));
+    tr_info("Registering: %s", alive->to_string().c_str());
+    entities().add(alive);
   }
 
   void Node::event_handler(Event& event) {
