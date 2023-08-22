@@ -3,10 +3,13 @@
 #include "mbed.h"
 #include <stdint.h>
 #include <string>
-#include "action.h"
-#include "event.h"
+#include "./actions/action.h"
+#include "./events/event.h"
 
-namespace BHAS::Entities {
+namespace BHAS {
+
+  // Forward declaration
+  class Event;
 
   // <<abstract>>
   class Entity {

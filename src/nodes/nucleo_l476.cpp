@@ -12,8 +12,8 @@ namespace BHAS::Nodes {
   NucleoL476::NucleoL476(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel)
   : Node(id, gatewayId, channel) {
 
-    tr_info("Setting up a NucleoL476 with [id: %d]", this->id());
-    tr_info("Upstream gateway is configured with [id: %d]", this->gateway_id());
+    tr_info("Setting up a NucleoL476 with [Nid: %d]", this->id());
+    tr_info("Upstream gateway is configured with [Nid: %d]", this->gateway_id());
 
     setup_buttons();
     setup_leds();

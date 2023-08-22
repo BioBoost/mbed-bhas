@@ -1,6 +1,6 @@
 #include "entity.h"
 
-namespace BHAS::Entities {
+namespace BHAS {
 
   Entity::Entity(uint8_t id, std::string description)
     : _id(id), _description(description) {
@@ -20,7 +20,7 @@ namespace BHAS::Entities {
   }
 
   std::string Entity::to_string() const {
-    return name() + " [id: " + std::to_string(_id) + "]" + (_description != "" ? " " + _description : "");
+    return name() + " [Eid: " + std::to_string(_id) + "]" + (_description != "" ? " " + _description : "");
   }
 
   void Entity::process_action(Action& action) {

@@ -6,7 +6,7 @@
 namespace BHAS {
 
   // Forward declaration
-  namespace Entities { class Entity; };
+  class Entity;
 
   class Event {
 
@@ -19,13 +19,13 @@ namespace BHAS {
       };
 
     public:
-      Event(Entities::Entity& entity, Type type, std::vector<uint8_t> arguments)
+      Event(Entity& entity, Type type, std::vector<uint8_t> arguments)
         : _entity(entity), _arguments(arguments), _type(type) {
 
       }
     
     public:
-      Entities::Entity& entity() {
+      Entity& entity() {
         return _entity;
       }
 
@@ -43,7 +43,7 @@ namespace BHAS {
       }
 
     private:
-      Entities::Entity& _entity;
+      Entity& _entity;
       std::vector<uint8_t> _arguments;
       Type _type;
 

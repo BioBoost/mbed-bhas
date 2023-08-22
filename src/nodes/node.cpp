@@ -79,7 +79,7 @@ namespace BHAS {
       return;
     }
 
-    Entities::Entity* entity = entities().find_by_id(message.entity_id());
+    Entity* entity = entities().find_by_id(message.entity_id());
     if (!entity) {
       tr_warning("Could not find entity with id = %d", message.entity_id());
       return;   // Error ?

@@ -29,7 +29,7 @@ namespace BHAS::Entities {
   }
 
   void PushButton::notify_event(ButtonEvent type) {
-    Event event(*this, Event::Type::ALIVE, { static_cast<uint8_t>(type) });
+    Event event(*this, Event::Type::BUTTON, { static_cast<uint8_t>(type) });
     call_event_handler(event);
   }
 

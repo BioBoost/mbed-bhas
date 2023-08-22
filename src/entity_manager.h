@@ -9,14 +9,14 @@ namespace BHAS {
   class EntityManager {
 
     public:
-      void add(Entities::Entity* entity);
+      void add(Entity* entity);
 
     public:
-      Entities::Entity* find_by_id(uint8_t id);
+      Entity* find_by_id(uint8_t id);
       uint8_t get_free_id();
 
     private:
-      std::vector<Entities::Entity*> _entities;
+      std::vector<Entity*> _entities;
 
   };
 
