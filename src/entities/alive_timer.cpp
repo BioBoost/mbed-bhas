@@ -19,8 +19,8 @@ namespace BHAS::Entities {
     }
   }
 
-  std::string AliveTimer::to_string() const {
-    return Entity::to_string() + " - type: AliveTimer";
+  std::string AliveTimer::name() const {
+    return "AliveTimer";
   }
 
 };

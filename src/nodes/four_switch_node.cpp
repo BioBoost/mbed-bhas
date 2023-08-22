@@ -2,6 +2,7 @@
 #include "alive_timer.h"
 #include "mbed_trace.h"
 #include "event_convertor.h"
+#include <stdint.h>
 
 #define TRACE_GROUP "BHAS FourSwitchNode"
 
@@ -24,16 +25,34 @@ namespace BHAS::Nodes {
     Node::dispatch_forever();
   }
 
-  void FourSwitchNode::handle_received_message(Communication::Message& message) const {
+  void FourSwitchNode::handle_received_message(Communication::Message& message) {
     if (message.destination_id() != id() && message.destination_id() != Node::BROADCAST_ID) {
       tr_debug("Ignoring message");
       return;
     }
 
+    Entities::Entity* entity = entities().find_by_id(message.entity_id());
+    if (!entity) return;      // Error ?
+
+    switch(message.base_type()) {
+      case Communication::Message::BaseType::ACTION:
+        // Here we should call convertor for the action
+        std::vector<uint8_t> args;
+        for (size_t i = 0; i < message.payload_size(); i++) { args.push_back(message.payload()[i]); }
+        Actions::Action action(static_cast<Actions::Action::Type>(message.sub_type()), args);
+        entity->process_action(action);
+        break;
+
+      // case Communication::Message::BaseType::CONFIG: 
+    }
+
+    // First we need to convert the message.
+    // We need to check if Action, Config, ...
+
     // TODO: Handle message
   }
 
-  void FourSwitchNode::handle_send_message(Communication::Message& message) const {
+  void FourSwitchNode::handle_send_message(Communication::Message& message) {
     // Ignore send messages
   }
 
@@ -89,7 +108,7 @@ namespace BHAS::Nodes {
 
   // TODO: Refactor - duplicate in RelayNode
   void FourSwitchNode::send_can_boot_message() {
-    Communication::Message message(id(), gateway_id(), 0, Communication::Message::Type::BOOT);
+    Communication::Message message(id(), gateway_id(), 0, Communication::Message::BaseType::BOOT);
     channel().send(message);
   }
 

@@ -19,8 +19,8 @@ namespace BHAS::Entities {
     }
   }
 
-  std::string InternalTemperature::to_string() const {
-    return Entity::to_string() + " - type: InternalTemperature";
+  std::string InternalTemperature::name() const {
+    return "InternalTemperature";
   }
 
 };

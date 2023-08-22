@@ -6,13 +6,13 @@
 
 namespace BHAS::Logging {
 
-  void MessageLogger::handle_received_message(Communication::Message& message) const {
+  void MessageLogger::handle_received_message(Communication::Message& message) {
     char buffer[128] = {};
     MessagePrinter::print(buffer, message);
     tr_debug("Received message: %s", buffer);
   }
 
-  void MessageLogger::handle_send_message(Communication::Message& message) const {
+  void MessageLogger::handle_send_message(Communication::Message& message) {
     char buffer[128] = {};
     MessagePrinter::print(buffer, message);
     tr_debug("Send message: %s", buffer);

@@ -8,34 +8,33 @@ namespace BHAS::Communication {
   class Message {
 
     public:
-      enum class Type : uint8_t {
-        NONE =      0x00,
-        BOOT =      0x01,
-        EVENT =     0x02,
-        ALERT =     0x03,
-        CONFIG =    0x04,
-        PERIODIC =  0x05,
-        WARNING =   0x06,
-        ERROR =     0x07,
-        ALIVE =     0x08
+      enum class BaseType : uint8_t {
+        BOOT        = 0x01,
+        PERIODIC    = 0x02,
+        EVENT       = 0x03,
+        ACTION      = 0x04,
+        CONFIG      = 0x05
+        // Warning, error, ... ?
       };
 
     public:
       Message();
-      Message(uint8_t sourceId, uint8_t destinationId, uint8_t entityId, Message::Type type);
+      Message(uint8_t sourceId, uint8_t destinationId, uint8_t entityId, Message::BaseType baseType, uint8_t subType = 0x00);
 
     public:
       void source_id(uint8_t id);
       void destination_id(uint8_t id);
       void entity_id(uint8_t id);
-      void type(Message::Type type);
+      void base_type(Message::BaseType baseType);
+      void sub_type(uint8_t subType);
       void payload(const uint8_t * payload, size_t size);
 
     public:
       uint8_t source_id() const;
       uint8_t destination_id() const;
       uint8_t entity_id() const;
-      Message::Type type() const;
+      Message::BaseType base_type() const;
+      uint8_t sub_type() const;
       const uint8_t * payload() const;
       size_t payload_size() const;
 
@@ -43,7 +42,8 @@ namespace BHAS::Communication {
       uint8_t _sourceId = 0;
       uint8_t _destinationId = 0;
       uint8_t _entityId = 0;
-      Message::Type _type = Message::Type::NONE;
+      Message::BaseType _baseType;
+      uint8_t _subType = 0x00;        // Subtype is specific to action, event, ... Examples: PERIODIC::ALIVE, ACTION::RESET
 
       static const size_t MAX_PAYLOAD_SIZE = 5;     // TODO: CAN property ! Should not be dependency here !
 

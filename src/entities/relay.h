@@ -3,6 +3,7 @@
 #include "mbed.h"
 #include <stdint.h>
 #include "entity.h"
+#include "action.h"
 
 namespace BHAS::Entities {
 
@@ -17,7 +18,10 @@ namespace BHAS::Entities {
       void toggle();
 
     public:
-      virtual std::string to_string() const override;
+      virtual std::string name() const override;
+
+    public:
+      virtual void process_action(Actions::Action& action) override {};
 
     private:
       DigitalOut _relay;

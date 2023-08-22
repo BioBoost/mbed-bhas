@@ -39,8 +39,8 @@ namespace BHAS::Entities {
     }
   }
 
-  std::string PushButton::to_string() const {
-    return Entity::to_string() + " - type: PushButton";
+  std::string PushButton::name() const {
+    return "PushButton";
   }
 
 };

@@ -18,8 +18,8 @@ namespace BHAS::Entities {
     _relay = !_relay;
   }
 
-  std::string Relay::to_string() const {
-    return Entity::to_string() + " - type: Relay";
+  std::string Relay::name() const {
+    return "Relay";
   }
 
 };

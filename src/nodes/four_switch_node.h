@@ -23,8 +23,8 @@ namespace BHAS::Nodes {
       virtual void dispatch_forever();
 
     protected:
-      void handle_received_message(Communication::Message& message) const override;
-      void handle_send_message(Communication::Message& message) const override;
+      void handle_received_message(Communication::Message& message) override;
+      void handle_send_message(Communication::Message& message) override;
 
     private:
       void button_event(BHAS::Events::ButtonEvent& event);

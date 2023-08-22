@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "entity.h"
 #include "button_event.h"
+#include "action.h"
 
 namespace BHAS::Entities {
 
@@ -24,7 +25,10 @@ namespace BHAS::Entities {
       void notify_press(Events::ButtonEvent::Type type);
 
     public:
-      virtual std::string to_string() const override;
+      virtual std::string name() const override;
+
+    public:
+      virtual void process_action(Actions::Action& action) override {};
 
     private:
       InterruptIn _button;

@@ -20,7 +20,10 @@ namespace BHAS::Entities {
       void notify_temperature();
 
     public:
-      virtual std::string to_string() const override;
+      virtual std::string name() const override;
+
+    public:
+      virtual void process_action(Actions::Action& action) override {};
 
     private:
       BHAS::Drivers::InternalTemperature _internalTemperatureSensor;

@@ -28,8 +28,8 @@ namespace BHAS::Nodes {
       EntityManager& entities();
 
     protected:
-      virtual void handle_received_message(Communication::Message& message) const = 0;
-      virtual void handle_send_message(Communication::Message& message) const = 0;
+      virtual void handle_received_message(Communication::Message& message) = 0;
+      virtual void handle_send_message(Communication::Message& message) = 0;
 
     private:
       void setup_channel_logging();
