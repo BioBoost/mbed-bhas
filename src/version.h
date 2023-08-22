@@ -4,7 +4,7 @@
 #define STR(x) STR_HELPER(x)
 
 #define BHAS_MAJOR_VERSION 0
-#define BHAS_MINOR_VERSION 4
+#define BHAS_MINOR_VERSION 5
 #define BHAS_PATCH_VERSION 0
 
 #define BHAS_VERSION_LABEL "viper"
