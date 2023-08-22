@@ -7,10 +7,10 @@
 
 namespace BHAS::Nodes {
 
-  class FourSwitchNode : public Node {
+  class NucleoL476 : public Node {
 
     public:
-      FourSwitchNode(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel);
+      NucleoL476(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel);
 
     private:
       void setup_buttons();

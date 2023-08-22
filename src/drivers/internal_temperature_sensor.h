@@ -14,7 +14,6 @@ namespace BHAS::Drivers {
       int8_t temperature();
 
     private:
-
 #if !defined(TARGET_LPC1768)
       AnalogIn _internalTemperature;
       AnalogIn _vrefInt;

@@ -2,16 +2,7 @@
 
 namespace BHAS::Drivers {
 
-#if defined(TARGET_LPC1768)
-
-  InternalTemperature::InternalTemperature() { }
-  
-  int8_t InternalTemperature::temperature() {
-    return 0;
-  }
-
-#else
-
+#if !defined(TARGET_LPC1768)
   InternalTemperature::InternalTemperature()
     : _internalTemperature(ADC_TEMP), _vrefInt(ADC_VREF) {
 
@@ -25,6 +16,13 @@ namespace BHAS::Drivers {
     return __LL_ADC_CALC_TEMPERATURE(voltage, adcTemperature, LL_ADC_RESOLUTION_12B);
   }
 
+#else
+
+  InternalTemperature::InternalTemperature() { }
+
+  int8_t InternalTemperature::temperature() {
+    return 0;
+  }
 #endif
 
 };
