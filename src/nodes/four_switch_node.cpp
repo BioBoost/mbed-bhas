@@ -21,7 +21,11 @@ namespace BHAS::Nodes {
   }
 
   void FourSwitchNode::setup_buttons() {
+#if defined(TARGET_LPC1768)
+    PinName buttonPins[] = { };
+#else
     PinName buttonPins[] = { PC_13, D8, D9, D10 };
+#endif
 
     for (size_t i = 0; i < sizeof(buttonPins)/sizeof(PinName); i++) {
       Entities::PushButton* button = new Entities::PushButton(entities().get_free_id(), queue(), buttonPins[i]);
@@ -32,7 +36,11 @@ namespace BHAS::Nodes {
   }
 
   void FourSwitchNode::setup_leds() {
+#if defined(TARGET_LPC1768)
+    PinName ledPins[] = { LED1, LED2, LED3, LED4 };
+#else
     PinName ledPins[] = { LED1 };
+#endif
 
     for (size_t i = 0; i < sizeof(ledPins)/sizeof(PinName); i++) {
       Entities::Led* led = new Entities::Led(entities().get_free_id(), ledPins[i]);

@@ -86,6 +86,26 @@ So:
 * Start of storage: `0x08000000 + 0x100000 - 8192`
 * Max size of bin: `0x100000 - 8192 = 0xFE000`
 
+### LPC1768
+
+Probable not correct. **Can't seem to get it to work.**
+
+Features:
+
+* 512KB Flash
+* 64 KB SRAM
+
+* `MBED_ROM_START`: `0x0000000` (`LPC_FLASH_BASE`)
+* `MBED_ROM_SIZE`: `0x80000` (512KB)
+
+Datasheet states that flash starts at `0x0004 0000` or at `0x0002 0000` [Manual @ page 23](https://www.nxp.com/docs/en/data-sheet/LPC1769_68_67_66_65_64_63.pdf)
+
+So:
+
+* Config size: `8 * 1024 = 8192 bytes`
+* Start of storage: `0x0000000 + 0x80000 - 8192`
+* Max size of bin: `0x80000 - 8192 = 0x7E000`
+
 ## Errors
 
 For some reason I can't seem to override the storage size in `mbed_lib.json`. Adding this fails:
