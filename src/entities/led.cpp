@@ -22,21 +22,21 @@ namespace BHAS::Entities {
     return "Led";
   }
 
-  void Led::process_action(Actions::Action& action) {
+  void Led::process_action(Action& action) {
     Entity::process_action(action);
-    if (action.status() != Actions::Action::Status::UNHANDLED) return;
+    if (action.status() != Action::Status::UNHANDLED) return;
 
     if (action.arguments().size() != 1) {
-      action.status(Actions::Action::Status::INVALID_ARGUMENT_COUNT);
+      action.status(Action::Status::INVALID_ARGUMENT_COUNT);
       return;
     };
 
     LedAction command = static_cast<LedAction>(action.arguments()[0]);
 
     switch(command) {
-      case LedAction::TURN_ON:    on();     action.status(Actions::Action::Status::SUCCESS); return;
-      case LedAction::TURN_OFF:   off();    action.status(Actions::Action::Status::SUCCESS); return;
-      case LedAction::TOGGLE:     toggle(); action.status(Actions::Action::Status::SUCCESS); return;
+      case LedAction::TURN_ON:    on();     action.status(Action::Status::SUCCESS); return;
+      case LedAction::TURN_OFF:   off();    action.status(Action::Status::SUCCESS); return;
+      case LedAction::TOGGLE:     toggle(); action.status(Action::Status::SUCCESS); return;
     }
   }
 

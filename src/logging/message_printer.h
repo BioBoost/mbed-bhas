@@ -29,10 +29,8 @@ namespace BHAS::Logging {
       static const char* message_type_as_string(Communication::Message::BaseType type) {
         using Communication::Message;
         switch(type) {
-          case Message::BaseType::BOOT:     return "BOOT";
           case Message::BaseType::EVENT:    return "EVENT";
           case Message::BaseType::CONFIG:   return "CONFIG";
-          case Message::BaseType::PERIODIC: return "PERIOD";
           case Message::BaseType::ACTION:   return "ACTION";
           default: return "UNKNOWN";
         }

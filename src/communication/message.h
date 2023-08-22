@@ -9,11 +9,9 @@ namespace BHAS::Communication {
 
     public:
       enum class BaseType : uint8_t {
-        BOOT        = 0x01,
-        PERIODIC    = 0x02,
-        EVENT       = 0x03,
-        ACTION      = 0x04,
-        CONFIG      = 0x05
+        EVENT       = 0x01,
+        ACTION      = 0x02,
+        CONFIG      = 0x03
         // Warning, error, ... ?
       };
 

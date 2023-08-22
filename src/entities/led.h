@@ -19,7 +19,7 @@ namespace BHAS::Entities {
       virtual std::string name() const override;
 
     public:
-      virtual void process_action(Actions::Action& action) override;
+      virtual void process_action(Action& action) override;
 
     private:
       void on();

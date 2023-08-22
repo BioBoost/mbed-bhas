@@ -8,15 +8,9 @@ namespace BHAS::Entities {
     queue.call_every(updateTime, callback(this, &InternalTemperature::notify_temperature));
   }
 
-  void InternalTemperature::on_temperature(Callback<void(BHAS::Events::TemperatureEvent&)> eventCallback) {
-    _onTemperature = eventCallback;
-  }
-
   void InternalTemperature::notify_temperature() {
-    if (_onTemperature) {
-      BHAS::Events::TemperatureEvent event(*this, _internalTemperatureSensor.temperature());
-      _onTemperature.call(event);
-    }
+    Event event(*this, Event::Type::TEMPERATURE, { _internalTemperatureSensor.temperature() });
+    call_event_handler(event);
   }
 
   std::string InternalTemperature::name() const {

@@ -3,6 +3,10 @@
 #include "mbed_trace.h"
 #include "event_convertor.h"
 #include <stdint.h>
+#include "push_button.h"
+#include "led.h"
+#include "internal_temperature.h"
+#include "alive_timer.h"
 
 #define TRACE_GROUP "BHAS FourSwitchNode"
 
@@ -21,7 +25,7 @@ namespace BHAS::Nodes {
   }
 
   void FourSwitchNode::dispatch_forever() {
-    send_can_boot_message();
+    // send_can_boot_message();
     Node::dispatch_forever();
   }
 
@@ -39,15 +43,12 @@ namespace BHAS::Nodes {
         // Here we should call convertor for the action
         std::vector<uint8_t> args;
         for (size_t i = 0; i < message.payload_size(); i++) { args.push_back(message.payload()[i]); }
-        Actions::Action action(static_cast<Actions::Action::Type>(message.sub_type()), args);
+        Action action(static_cast<Action::Type>(message.sub_type()), args);
         entity->process_action(action);
         break;
 
       // case Communication::Message::BaseType::CONFIG: 
     }
-
-    // First we need to convert the message.
-    // We need to check if Action, Config, ...
 
     // TODO: Handle message
   }
@@ -56,18 +57,9 @@ namespace BHAS::Nodes {
     // Ignore send messages
   }
 
-  void FourSwitchNode::button_event(BHAS::Events::ButtonEvent& event) {
-    Communication::Message message = Events::EventConvertor::to_message(event, id(), gateway_id());
-    channel().send(message);
-  }
-
-  void FourSwitchNode::temperature_ready(BHAS::Events::TemperatureEvent& event) {
-    Communication::Message message = Events::EventConvertor::to_message(event, id(), gateway_id());
-    channel().send(message);
-  }
-
-  void FourSwitchNode::alive_ready(BHAS::Events::AliveTimeEvent& event) {
-    Communication::Message message = Events::EventConvertor::to_message(event, id(), gateway_id());
+  void FourSwitchNode::event_handler(Event& event) {
+    Communication::Message message(id(), gateway_id(), event.entity().id(), Communication::Message::BaseType::EVENT, static_cast<uint8_t>(event.type()));
+    message.payload(&event.arguments()[0], event.arguments().size());
     channel().send(message);
   }
 
@@ -76,7 +68,7 @@ namespace BHAS::Nodes {
 
     for (size_t i = 0; i < sizeof(buttonPins)/sizeof(PinName); i++) {
       Entities::PushButton* button = new Entities::PushButton(10+i, queue(), buttonPins[i]);            // TODO: Better id generation !
-      button->on_event(callback(this, &FourSwitchNode::button_event));
+      button->on_event(callback(this, &FourSwitchNode::event_handler));
       tr_info("Registering: %s", button->to_string().c_str());
       entities().add(button);
     }
@@ -94,22 +86,22 @@ namespace BHAS::Nodes {
 
   void FourSwitchNode::setup_temperature() {
     Entities::InternalTemperature * temperature = new Entities::InternalTemperature(30, queue());
-    temperature->on_temperature(callback(this, &FourSwitchNode::temperature_ready));
+    temperature->on_event(callback(this, &FourSwitchNode::event_handler));
     tr_info("Registering: %s", temperature->to_string().c_str());
     entities().add(temperature);
   }
 
   void FourSwitchNode::setup_alive_timer() {
-    Entities::AliveTimer * alive = new Entities::AliveTimer(60, queue());
-    alive->on_alive(callback(this, &FourSwitchNode::alive_ready));
+    Entities::AliveTimer * alive = new Entities::AliveTimer(60, queue(), 20s);
+    alive->on_event(callback(this, &FourSwitchNode::event_handler));
     tr_info("Registering: %s", alive->to_string().c_str());
     entities().add(alive);
   }
 
-  // TODO: Refactor - duplicate in RelayNode
-  void FourSwitchNode::send_can_boot_message() {
-    Communication::Message message(id(), gateway_id(), 0, Communication::Message::BaseType::BOOT);
-    channel().send(message);
-  }
+  // // TODO: Refactor - duplicate in RelayNode
+  // void FourSwitchNode::send_can_boot_message() {
+  //   Communication::Message message(id(), gateway_id(), 0, Communication::Message::BaseType::BOOT);
+  //   channel().send(message);
+  // }
 
 };

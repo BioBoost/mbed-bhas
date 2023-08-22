@@ -2,15 +2,10 @@
 
 #include "node.h"
 #include "channel.h"
-#include "internal_temperature.h"
-#include "push_button.h"
-#include "led.h"
-#include "entity.h"
 #include "message.h"
 #include <stdint.h>
 #include "mbed.h"
-#include "temperature_event.h"
-#include "alive_time_event.h"
+#include "event.h"
 
 namespace BHAS::Nodes {
 
@@ -27,9 +22,7 @@ namespace BHAS::Nodes {
       void handle_send_message(Communication::Message& message) override;
 
     private:
-      void button_event(BHAS::Events::ButtonEvent& event);
-      void temperature_ready(BHAS::Events::TemperatureEvent& event);
-      void alive_ready(BHAS::Events::AliveTimeEvent& event);
+      void event_handler(Event& event);
 
     private:
       void setup_buttons();

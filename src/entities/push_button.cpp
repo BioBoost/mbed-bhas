@@ -9,10 +9,6 @@ namespace BHAS::Entities {
     _button.rise(callback(this, &PushButton::rising_edge));
   }
 
-  void PushButton::on_event(Callback<void(BHAS::Events::ButtonEvent&)> eventCallback) {
-    _onEvent = eventCallback;
-  }
-
   void PushButton::falling_edge() {
     // This is ISR !
     _timer.start();
@@ -26,17 +22,15 @@ namespace BHAS::Entities {
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(_timer.elapsed_time()).count();
     _timer.reset();
 
-    Events::ButtonEvent::Type type = (milliseconds <= MBED_CONF_BHAS_PUSH_BUTTON_SHORT_PRESS_THRESHOLD_MS ? Events::ButtonEvent::Type::SHORT_PRESS : Events::ButtonEvent::Type::LONG_PRESS);
-    _queue.call(callback(this, &PushButton::notify_press), type);   // Currently in ISR context ! Need to move to event queue
-
     // TODO: UP event
+
+    ButtonEvent type = (milliseconds <= MBED_CONF_BHAS_PUSH_BUTTON_SHORT_PRESS_THRESHOLD_MS ? ButtonEvent::SHORT_PRESS : ButtonEvent::LONG_PRESS);
+    _queue.call(callback(this, &PushButton::notify_event), type);   // Currently in ISR context ! Need to move to event queue
   }
 
-  void PushButton::notify_press(Events::ButtonEvent::Type type) {
-    if (_onEvent) {
-      BHAS::Events::ButtonEvent event(*this, type);
-      _onEvent.call(event);
-    }
+  void PushButton::notify_event(ButtonEvent type) {
+    Event event(*this, Event::Type::ALIVE, { static_cast<uint8_t>(type) });
+    call_event_handler(event);
   }
 
   std::string PushButton::name() const {

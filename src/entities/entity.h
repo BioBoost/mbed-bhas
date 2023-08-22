@@ -1,8 +1,10 @@
 #pragma once
 
+#include "mbed.h"
 #include <stdint.h>
 #include <string>
 #include "action.h"
+#include "event.h"
 
 namespace BHAS::Entities {
 
@@ -27,13 +29,19 @@ namespace BHAS::Entities {
       virtual void reset() {};
 
     public:
-      // virtual void on_event(Callback<void(Events::Event)> eventCallback);
-      virtual void process_action(Actions::Action& action);
+      // Register event handler
+      void on_event(mbed::Callback<void(Event&)> eventCallback);
 
+    public:
+      virtual void process_action(Action& action);
+
+    protected:
+      void call_event_handler(Event& event);
 
     private:
       uint8_t _id = 0;
       std::string _description;
+      Callback<void(Event&)> _onEvent;
 
   };
 

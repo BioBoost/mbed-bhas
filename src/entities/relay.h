@@ -20,8 +20,7 @@ namespace BHAS::Entities {
     public:
       virtual std::string name() const override;
 
-    public:
-      virtual void process_action(Actions::Action& action) override {};
+    // TODO: Process action
 
     private:
       DigitalOut _relay;

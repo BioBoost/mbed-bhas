@@ -23,12 +23,22 @@ namespace BHAS::Entities {
     return name() + " [id: " + std::to_string(_id) + "]" + (_description != "" ? " " + _description : "");
   }
 
-  void Entity::process_action(Actions::Action& action) {
+  void Entity::process_action(Action& action) {
     switch(action.type()) {
-      case Actions::Action::Type::DISABLE:    this->disable();  action.status(Actions::Action::Status::SUCCESS); break;
-      case Actions::Action::Type::ENABLE:     this->enable();   action.status(Actions::Action::Status::SUCCESS); break;
-      case Actions::Action::Type::RESET:      this->reset();    action.status(Actions::Action::Status::SUCCESS); break;
+      case Action::Type::DISABLE:    this->disable();  action.status(Action::Status::SUCCESS); break;
+      case Action::Type::ENABLE:     this->enable();   action.status(Action::Status::SUCCESS); break;
+      case Action::Type::RESET:      this->reset();    action.status(Action::Status::SUCCESS); break;
     }
   };
+
+  void Entity::on_event(mbed::Callback<void(Event&)> eventCallback) {
+    _onEvent = eventCallback;
+  }
+
+  void Entity::call_event_handler(Event& event) {
+    if (_onEvent) {
+      _onEvent.call(event);
+    }
+  }
 
 };

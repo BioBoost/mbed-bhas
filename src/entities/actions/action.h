@@ -3,7 +3,7 @@
 #include "entity.h"
 #include <vector>
 
-namespace BHAS::Actions {
+namespace BHAS {
 
   class Action {
 

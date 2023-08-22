@@ -30,6 +30,7 @@ Notice that a basic CAN message can only hold 8 bytes of data while we seem to h
 * Nodes will typically ignore messages not intended for them, but this is not a must. This allows for logging and sniffing :).
 * A destination ID of `255` is considered a broadcast message
 * Message type consist of a base type and a sub type. This allows us to differentiate between messages for the base entity and for the more specific entity subclasses.
+  * If ever needed, we can probable fit base type in 3 bits to allow for more subtypes
 
 ## Entities
 
