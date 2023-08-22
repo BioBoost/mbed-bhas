@@ -1,7 +1,5 @@
 #include "four_switch_node.h"
-#include "alive_timer.h"
 #include "mbed_trace.h"
-#include "event_convertor.h"
 #include <stdint.h>
 #include "push_button.h"
 #include "led.h"
@@ -22,45 +20,6 @@ namespace BHAS::Nodes {
     setup_leds();
     setup_temperature();
     setup_alive_timer();
-  }
-
-  void FourSwitchNode::dispatch_forever() {
-    // send_can_boot_message();
-    Node::dispatch_forever();
-  }
-
-  void FourSwitchNode::handle_received_message(Communication::Message& message) {
-    if (message.destination_id() != id() && message.destination_id() != Node::BROADCAST_ID) {
-      tr_debug("Ignoring message");
-      return;
-    }
-
-    Entities::Entity* entity = entities().find_by_id(message.entity_id());
-    if (!entity) return;      // Error ?
-
-    switch(message.base_type()) {
-      case Communication::Message::BaseType::ACTION:
-        // Here we should call convertor for the action
-        std::vector<uint8_t> args;
-        for (size_t i = 0; i < message.payload_size(); i++) { args.push_back(message.payload()[i]); }
-        Action action(static_cast<Action::Type>(message.sub_type()), args);
-        entity->process_action(action);
-        break;
-
-      // case Communication::Message::BaseType::CONFIG: 
-    }
-
-    // TODO: Handle message
-  }
-
-  void FourSwitchNode::handle_send_message(Communication::Message& message) {
-    // Ignore send messages
-  }
-
-  void FourSwitchNode::event_handler(Event& event) {
-    Communication::Message message(id(), gateway_id(), event.entity().id(), Communication::Message::BaseType::EVENT, static_cast<uint8_t>(event.type()));
-    message.payload(&event.arguments()[0], event.arguments().size());
-    channel().send(message);
   }
 
   void FourSwitchNode::setup_buttons() {
@@ -97,11 +56,5 @@ namespace BHAS::Nodes {
     tr_info("Registering: %s", alive->to_string().c_str());
     entities().add(alive);
   }
-
-  // // TODO: Refactor - duplicate in RelayNode
-  // void FourSwitchNode::send_can_boot_message() {
-  //   Communication::Message message(id(), gateway_id(), 0, Communication::Message::BaseType::BOOT);
-  //   channel().send(message);
-  // }
 
 };

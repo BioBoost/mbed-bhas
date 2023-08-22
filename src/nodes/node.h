@@ -7,8 +7,9 @@
 #include "message_logger.h"
 #include "entity_manager.h"
 #include "channel.h"
+#include "event.h"
 
-namespace BHAS::Nodes {
+namespace BHAS {
 
   class Node : public Communication::IMessageHandler {
 
@@ -20,7 +21,7 @@ namespace BHAS::Nodes {
       uint8_t gateway_id() const;
 
     public:
-      virtual void dispatch_forever();
+      void dispatch_forever();
 
     protected:
       Communication::Channels::Channel& channel();
@@ -28,14 +29,18 @@ namespace BHAS::Nodes {
       EntityManager& entities();
 
     protected:
-      virtual void handle_received_message(Communication::Message& message) = 0;
-      virtual void handle_send_message(Communication::Message& message) = 0;
+      void handle_received_message(Communication::Message& message);
+      void handle_send_message(Communication::Message& message);
 
     private:
       void setup_channel_logging();
       void setup_channel_processing();
+      void setup_system();
 
-    public:
+    protected:
+      void event_handler(Event& event);
+
+    protected:
       static const uint8_t BROADCAST_ID = 255;
 
     private:
