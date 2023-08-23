@@ -7,13 +7,13 @@
 
 namespace BHAS::Entities {
 
-  class Led : public Entity {
+  class DigitalOutput : public Entity {
 
     private:
-      enum class LedAction { TURN_ON, TURN_OFF, TOGGLE };
+      enum class OutputAction { TURN_ON, TURN_OFF, TOGGLE };
     
     public:
-      Led(uint8_t id, PinName pin, std::string description = "");
+      DigitalOutput(uint8_t id, PinName pin, std::string description = "");
 
     public:
       virtual std::string name() const override;
@@ -27,7 +27,7 @@ namespace BHAS::Entities {
       void toggle();
 
     private:
-      DigitalOut _led;
+      DigitalOut _out;
 
   };
 

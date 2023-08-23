@@ -1,7 +1,7 @@
 #include "lpc_1768.h"
 #include "mbed_trace.h"
 #include <stdint.h>
-#include "led.h"
+#include "indicator_led.h"
 
 #define TRACE_GROUP "BHAS Lpc1768"
 
@@ -21,7 +21,7 @@ namespace BHAS::Nodes {
     PinName ledPins[] = { LED1, LED2, LED3, LED4 };
 
     for (size_t i = 0; i < sizeof(ledPins)/sizeof(PinName); i++) {
-      Entities::Led* led = new Entities::Led(entities().get_free_id(), ledPins[i]);
+      Entities::IndicatorLed* led = new Entities::IndicatorLed(entities().get_free_id(), ledPins[i]);
       tr_info("Registering: %s", led->to_string().c_str());
       entities().add(led);
     }

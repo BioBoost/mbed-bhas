@@ -2,7 +2,7 @@
 #include "mbed_trace.h"
 #include <stdint.h>
 #include "push_button.h"
-#include "led.h"
+#include "indicator_led.h"
 #include "internal_temperature.h"
 
 #define TRACE_GROUP "BHAS NucleoL476"
@@ -38,7 +38,7 @@ namespace BHAS::Nodes {
     PinName ledPins[] = { LED1 };
 
     for (size_t i = 0; i < sizeof(ledPins)/sizeof(PinName); i++) {
-      Entities::Led* led = new Entities::Led(entities().get_free_id(), ledPins[i]);
+      Entities::IndicatorLed* led = new Entities::IndicatorLed(entities().get_free_id(), ledPins[i]);
       tr_info("Registering: %s", led->to_string().c_str());
       entities().add(led);
     }
