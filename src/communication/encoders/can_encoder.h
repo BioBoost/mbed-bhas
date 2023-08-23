@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <cstring>
-#include "message.h"
+#include "../message.h"
 #include "InterfaceCAN.h"
 
 namespace BHAS::Communication::Encoders {
@@ -27,14 +27,15 @@ namespace BHAS::Communication::Encoders {
         return CANMessage(message.destination_id(), buffer, 3+message.payload_size());
       }
 
-      static Message mbed_can_message_to_message(const CANMessage& mbedMessage) {
+      static Message mbed_can_message_to_message(const CANMessage& canMessage) {
         Message message;
         
-        message.source_id(mbedMessage.id);
-        message.destination_id(mbedMessage.data[0]);
-        message.entity_id(mbedMessage.data[1]);
-        message.base_type(static_cast<Message::BaseType>((mbedMessage.data[2] >> 4) & 0x0F));
-        message.sub_type(mbedMessage.data[2] & 0x0F);
+        message.source_id(canMessage.id);
+        message.destination_id(canMessage.data[0]);
+        message.entity_id(canMessage.data[1]);
+        message.base_type(static_cast<Message::BaseType>((canMessage.data[2] >> 4) & 0x0F));
+        message.sub_type(canMessage.data[2] & 0x0F);
+        message.payload(canMessage.data+3, canMessage.data_length_code-3);
 
         return message;
       }
