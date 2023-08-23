@@ -10,6 +10,7 @@ namespace BHAS {
 
   // Forward declaration
   class Event;
+  class Action;
 
   // <<abstract>>
   class Entity {

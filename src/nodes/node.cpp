@@ -3,6 +3,7 @@
 #include "mbed_trace.h"
 #include "system.h"
 #include "alive_timer.h"
+#include "message_convertor.h"
 
 #define TRACE_GROUP "BHAS Node"
 
@@ -68,8 +69,7 @@ namespace BHAS {
   }
 
   void Node::event_handler(Event& event) {
-    Communication::Message message(id(), gateway_id(), event.entity().id(), Communication::Message::BaseType::EVENT, static_cast<uint8_t>(event.type()));
-    message.payload(&event.arguments()[0], event.arguments().size());
+    Communication::Message message = Convertors::MessageConvertor::event_to_message(id(), gateway_id(), event);
     _channel.send(message);
   }
 
@@ -87,10 +87,7 @@ namespace BHAS {
 
     switch(message.base_type()) {
       case Communication::Message::BaseType::ACTION:
-        // Here we should call convertor for the action
-        std::vector<uint8_t> args;
-        for (size_t i = 0; i < message.payload_size(); i++) { args.push_back(message.payload()[i]); }
-        Action action(static_cast<Action::Type>(message.sub_type()), args);
+        Action action = Convertors::MessageConvertor::message_to_action(message);
         entity->process_action(action);
         break;
 
