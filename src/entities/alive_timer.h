@@ -18,6 +18,9 @@ namespace BHAS::Entities {
     private:
       void notify_alive();
 
+    private:
+      Timer _timer;
+
   };
 
 };
