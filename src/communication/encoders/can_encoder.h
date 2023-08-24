@@ -30,12 +30,12 @@ namespace BHAS::Communication::Encoders {
       static Message mbed_can_message_to_message(const CANMessage& canMessage) {
         Message message;
         
-        message.source_id(canMessage.id);
-        message.destination_id(canMessage.data[0]);
+        message.source_id(canMessage.data[0]);
+        message.destination_id(canMessage.id);
         message.entity_id(canMessage.data[1]);
         message.base_type(static_cast<Message::BaseType>((canMessage.data[2] >> 4) & 0x0F));
         message.sub_type(canMessage.data[2] & 0x0F);
-        message.payload(canMessage.data+3, canMessage.data_length_code-3);
+        message.payload(canMessage.data+3, canMessage.len-3);
 
         return message;
       }
