@@ -20,12 +20,12 @@ namespace BHAS::Communication::Channels {
 
   bool CANChannel::send(Message& message) {
     int result = _canBus.write(
-      Encoders::CANEncoder::message_to_mbed_can_message(message)
+      Encoders::CANEncoder::message_to_can_message(message)
     );
 
     // TODO: Check result + what if fails ? Do we create internal buffer for messages that need to be send ?
   
-    call_send_handlers(message);
+    if (result) call_send_handlers(message);
 
     return result;
   }
@@ -35,7 +35,7 @@ namespace BHAS::Communication::Channels {
     if (_canBus.read(rawMessage)) {
       if (rawMessage.len < 3) return;   // Ignore message if minimal fields are missing
 
-      Message message = Encoders::CANEncoder::mbed_can_message_to_message(rawMessage);
+      Message message = Encoders::CANEncoder::can_message_to_message(rawMessage);
       call_receive_handlers(message);
     }
   }

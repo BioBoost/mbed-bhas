@@ -7,7 +7,7 @@
 
 namespace BHAS::Nodes {
 
-  Lpc1768::Lpc1768(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel)
+  Lpc1768::Lpc1768(uint8_t id, uint8_t gatewayId, Communication::Channel& channel)
   : Node(id, gatewayId, channel) {
 
     tr_info("Setting up a Lpc1768 node with [Nid: %d]", this->id());

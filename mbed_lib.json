@@ -11,6 +11,10 @@
     "push_button_short_press_threshold_ms": {
       "help": "Time (in ms) that a press is still considered a short press",
       "value": 250
+    },
+    "max_message_payload_size": {
+      "help": "The maximum size of the payload of a message fitting the used communication channel",
+      "value": 5
     }
   },
   "target_overrides": {

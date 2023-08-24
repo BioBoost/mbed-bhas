@@ -9,7 +9,7 @@
 
 namespace BHAS::Nodes {
 
-  NucleoL476::NucleoL476(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel)
+  NucleoL476::NucleoL476(uint8_t id, uint8_t gatewayId, Communication::Channel& channel)
   : Node(id, gatewayId, channel) {
 
     tr_info("Setting up a NucleoL476 with [Nid: %d]", this->id());

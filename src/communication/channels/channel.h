@@ -1,10 +1,10 @@
 #pragma once
 
-#include "message.h"
-#include "i_message_handler.h"
+#include "../message.h"
+#include "../i_message_handler.h"
 #include <vector>
 
-namespace BHAS::Communication::Channels {
+namespace BHAS::Communication {
 
   // <<abstract>>
   class Channel {

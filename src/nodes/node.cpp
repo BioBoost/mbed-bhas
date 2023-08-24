@@ -9,7 +9,7 @@
 
 namespace BHAS {
 
-  Node::Node(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel)
+  Node::Node(uint8_t id, uint8_t gatewayId, Communication::Channel& channel)
     : _id(id), _gatewayId(gatewayId), _channel(channel) {
 
     setup_channel_logging();
@@ -30,7 +30,7 @@ namespace BHAS {
     _eventQueue.dispatch_forever();
   }
 
-  Communication::Channels::Channel& Node::channel() {
+  Communication::Channel& Node::channel() {
     return _channel;
   }
 
@@ -51,10 +51,12 @@ namespace BHAS {
   }
 
   void Node::setup_channel_processing() {
-    _eventQueue.call_every(1ms, callback(&_channel, &Communication::Channels::Channel::receive));
+    _eventQueue.call_every(1ms, callback(&_channel, &Communication::Channel::receive));
   }
 
   void Node::setup_system() {
+    // TODO: Can we add the type of the node here ?
+    // That way our gateway can report of its a relayNode, a SwitchNode, ...
     Entities::System * system = new Entities::System(entities().get_free_id(), queue());
     system->on_event(callback(this, &Node::event_handler));
     tr_info("Registering: %s", system->to_string().c_str());

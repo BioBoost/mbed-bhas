@@ -43,7 +43,7 @@ namespace BHAS::Communication {
       Message::BaseType _baseType;
       uint8_t _subType = 0x00;        // Subtype is specific to action, event, ... Examples: PERIODIC::ALIVE, ACTION::RESET
 
-      static const size_t MAX_PAYLOAD_SIZE = 5;     // TODO: CAN property ! Should not be dependency here !
+      static const size_t MAX_PAYLOAD_SIZE = MBED_CONF_BHAS_MAX_MESSAGE_PAYLOAD_SIZE;
 
       uint8_t _payload[MAX_PAYLOAD_SIZE] = { 0 };
       size_t _payloadSize = 0;

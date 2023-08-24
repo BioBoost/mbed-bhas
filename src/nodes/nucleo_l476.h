@@ -10,7 +10,7 @@ namespace BHAS::Nodes {
   class NucleoL476 : public Node {
 
     public:
-      NucleoL476(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel);
+      NucleoL476(uint8_t id, uint8_t gatewayId, Communication::Channel& channel);
 
     private:
       void setup_buttons();

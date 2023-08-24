@@ -1,8 +1,10 @@
 #include "message.h"
 #include <cstring>
-#include "mbed_assert.h"
+#include <algorithm>
 
 namespace BHAS::Communication {
+
+  const size_t Message::MAX_PAYLOAD_SIZE;     // Definition
 
   Message::Message() { }
 
@@ -35,8 +37,7 @@ namespace BHAS::Communication {
   }
 
   void Message::payload(const uint8_t * payload, size_t size) {
-    MBED_ASSERT(size <= Message::MAX_PAYLOAD_SIZE);
-
+    size = std::min(size, MAX_PAYLOAD_SIZE);    // If payload is to big we truncate
     memcpy(_payload, payload, size);
     _payloadSize = size;
   }

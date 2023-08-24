@@ -14,7 +14,7 @@ namespace BHAS {
   class Node : public Communication::IMessageHandler {
 
     public:
-      Node(uint8_t id, uint8_t gatewayId, Communication::Channels::Channel& channel);
+      Node(uint8_t id, uint8_t gatewayId, Communication::Channel& channel);
 
     public:
       uint8_t id() const;
@@ -24,7 +24,7 @@ namespace BHAS {
       void dispatch_forever();
 
     protected:
-      Communication::Channels::Channel& channel();
+      Communication::Channel& channel();
       events::EventQueue& queue();
       EntityManager& entities();
 
@@ -47,7 +47,7 @@ namespace BHAS {
     private:
       uint8_t _id = 0;
       uint8_t _gatewayId = 0;
-      Communication::Channels::Channel& _channel;
+      Communication::Channel& _channel;
       Logging::MessageLogger _messageLogger;
       EntityManager _entities;
       events::EventQueue _eventQueue;

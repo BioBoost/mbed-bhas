@@ -17,7 +17,7 @@ namespace BHAS::Communication::Encoders {
     // | CAN ID (11 bits = DST) | SRC ID (8 bits) | ENT ID (8 bits) | BASE TYPE (4 bits) + SUBTYPE (4 bits) | DATA (max 5 bytes) |
 
     public:
-      static CANMessage message_to_mbed_can_message(const Message& message) {
+      static CANMessage message_to_can_message(const Message& message) {
         char buffer[MAX_CAN_PACKET_SIZE] = { 0 };
         buffer[0] = message.source_id();
         buffer[1] = message.entity_id();
@@ -27,7 +27,7 @@ namespace BHAS::Communication::Encoders {
         return CANMessage(message.destination_id(), buffer, 3+message.payload_size());
       }
 
-      static Message mbed_can_message_to_message(const CANMessage& canMessage) {
+      static Message can_message_to_message(const CANMessage& canMessage) {
         Message message;
         
         message.source_id(canMessage.data[0]);

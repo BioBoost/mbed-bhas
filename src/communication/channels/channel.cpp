@@ -1,6 +1,6 @@
 #include "channel.h"
 
-namespace BHAS::Communication::Channels {
+namespace BHAS::Communication {
 
   void Channel::register_receive_handler(IMessageHandler* handler) {
     _receiveHandlers.push_back(handler);

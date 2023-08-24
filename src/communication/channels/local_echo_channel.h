@@ -2,7 +2,7 @@
 
 #include "channel.h"
 #include <queue>
-#include "i_message_handler.h"
+#include "../i_message_handler.h"
 
 namespace BHAS::Communication::Channels {
 
