@@ -17,6 +17,7 @@ Messages are basically an abstraction of a CAN message.
 The general structure is as shown next:
 
 | DESTINATION_ID | SOURCE_ID | ENTITY_ID | MESSAGE_TYPE                           | PAYLOAD |
+| --- | --- | --- | --- | --- |
 | 8 bits         | 8 bits    | 8 bits    | BASE TYPE (4 bits) + SUB TYPE (4 bits) | 0-5 bytes |
 
 Where a basic CAN message looks like
