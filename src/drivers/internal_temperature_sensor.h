@@ -1,7 +1,9 @@
 #pragma once
+#include "../bhas_platform.h"
 
+#if defined(PLATFORM_MBED)
 #include "mbed.h"
-#include <stdint.h>
+#include <cstdint>
 
 namespace BHAS::Drivers {
 
@@ -22,3 +24,4 @@ namespace BHAS::Drivers {
   };
 
 };
+#endif

@@ -3,7 +3,7 @@
 
 #include "configuration_manager.h"
 #include "mbed_trace.h"
-#include <stdint.h>
+#include <cstdint>
 
 #define TRACE_GROUP "BHAS ConfigurationManager"
 

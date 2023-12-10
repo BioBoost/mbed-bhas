@@ -1,6 +1,7 @@
 #pragma once
 
-#include "entity.h"
+#include "../entity.h"
+#include <cstdint>
 #include <vector>
 
 namespace BHAS {

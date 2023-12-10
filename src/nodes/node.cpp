@@ -51,7 +51,7 @@ namespace BHAS {
   }
 
   void Node::setup_channel_processing() {
-    _eventQueue.call_every(1ms, callback(&_channel, &Communication::Channel::receive));
+    _eventQueue.call_every(1ms, callback(&_channel, &Communication::Channel::process));
   }
 
   void Node::setup_system() {

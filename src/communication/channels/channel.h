@@ -10,11 +10,11 @@ namespace BHAS::Communication {
   class Channel {
 
     public:
-      // Send message via the communication channel
+      // Send message via the communication channel (may be queued)
       virtual bool send(Message& message) = 0;
 
-      // Receive message via the communication channel
-      virtual void receive() = 0;
+      // Give processing time to the channel. Can be used to receive messages, send queued messages, ...
+      virtual void process() = 0;
 
     public:
       void register_receive_handler(IMessageHandler* handler);

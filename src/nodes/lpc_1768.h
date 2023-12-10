@@ -2,7 +2,7 @@
 
 #include "node.h"
 #include "channel.h"
-#include <stdint.h>
+#include <cstdint>
 #include "mbed.h"
 
 namespace BHAS::Nodes {

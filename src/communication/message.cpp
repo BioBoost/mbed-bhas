@@ -70,4 +70,10 @@ namespace BHAS::Communication {
     return _payloadSize;
   }
 
+  uint32_t Message::extended_id() const {
+    return (static_cast<uint32_t>(destination_id()) << 16)
+            + (static_cast<uint32_t>(source_id()) << 8)
+            + static_cast<uint32_t>(entity_id());
+  }
+
 };

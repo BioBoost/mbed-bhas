@@ -14,7 +14,7 @@ namespace BHAS::Communication::Channels {
     public:
       // Sending a message on this channel will trigger an echo of the same message
       bool send(Message& message);
-      void receive();
+      void process();
   
     private:
       std::queue<Message> _messageBuffer;

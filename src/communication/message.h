@@ -1,7 +1,12 @@
 #pragma once
 
-#include <stdint.h>
+#include "../bhas_platform.h"
+#include <cstdint>
 #include <stddef.h>
+
+#if defined(PLATFORM_ESP)
+#define MBED_CONF_BHAS_MAX_MESSAGE_PAYLOAD_SIZE 5
+#endif
 
 namespace BHAS::Communication {
 
@@ -26,6 +31,9 @@ namespace BHAS::Communication {
       void base_type(Message::BaseType baseType);
       void sub_type(uint8_t subType);
       void payload(const uint8_t * payload, size_t size);
+
+      // Extended ID is basically gateway id + source id + entity id
+      uint32_t extended_id() const;
 
     public:
       uint8_t source_id() const;

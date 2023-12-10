@@ -1,7 +1,10 @@
 #pragma once
+#include "../bhas_platform.h"
+
+#if defined(PLATFORM_MBED)
 
 #include "mbed.h"
-#include <stdint.h>
+#include <cstdint>
 #include "entity.h"
 #include "action.h"
 
@@ -32,3 +35,5 @@ namespace BHAS::Entities {
   };
 
 };
+
+#endif

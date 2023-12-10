@@ -1,5 +1,6 @@
 #include "internal_temperature_sensor.h"
 
+#if defined(PLATFORM_MBED)
 namespace BHAS::Drivers {
 
 #if !defined(TARGET_LPC1768)
@@ -26,3 +27,4 @@ namespace BHAS::Drivers {
 #endif
 
 };
+#endif

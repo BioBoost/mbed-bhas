@@ -1,7 +1,11 @@
 #pragma once
+#include "../bhas_platform.h"
 
+#if defined(PLATFORM_MBED)
 #include "mbed.h"
-#include <stdint.h>
+#endif
+
+#include <cstdint>
 #include <string>
 #include "./actions/action.h"
 #include "./events/event.h"
@@ -34,7 +38,9 @@ namespace BHAS {
 
     public:
       // Register event handler
+#if defined(PLATFORM_MBED)
       void on_event(mbed::Callback<void(Event&)> eventCallback);
+#endif
 
     public:
       virtual void process_action(Action& action);
@@ -45,8 +51,9 @@ namespace BHAS {
     private:
       uint8_t _id = 0;
       std::string _description;
+#if defined(PLATFORM_MBED)
       Callback<void(Event&)> _onEvent;
-
+#endif
   };
 
 };

@@ -1,5 +1,7 @@
 #include "internal_temperature.h"
 
+#if defined(PLATFORM_MBED)
+
 namespace BHAS::Entities {
 
   InternalTemperature::InternalTemperature(uint8_t id, EventQueue& queue, EventQueue::duration updateTime, std::string description)
@@ -18,3 +20,5 @@ namespace BHAS::Entities {
   }
 
 };
+
+#endif

@@ -1,5 +1,7 @@
 #include "digital_output.h"
 
+#if defined(PLATFORM_MBED)
+
 namespace BHAS::Entities {
 
   DigitalOutput::DigitalOutput(uint8_t id, PinName pin, std::string description)
@@ -41,3 +43,5 @@ namespace BHAS::Entities {
   }
 
 };
+
+#endif

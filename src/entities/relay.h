@@ -1,6 +1,9 @@
 #pragma once
+#include "../bhas_platform.h"
 
-#include <stdint.h>
+#if defined(PLATFORM_MBED)
+
+#include <cstdint>
 #include "digital_output.h"
 
 namespace BHAS::Entities {
@@ -16,3 +19,5 @@ namespace BHAS::Entities {
   };
 
 };
+
+#endif

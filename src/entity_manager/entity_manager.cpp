@@ -1,5 +1,6 @@
+#include "../bhas_platform.h"
+#include "../logging/trace_logging.h"
 #include "entity_manager.h"
-#include "mbed_trace.h"
 
 #define TRACE_GROUP "BHAS EntityManager"
 

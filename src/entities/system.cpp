@@ -1,5 +1,7 @@
 #include "system.h"
 
+#if defined(PLATFORM_MBED)
+
 namespace BHAS::Entities {
 
   System::System(uint8_t id, EventQueue& queue, std::string description)
@@ -18,3 +20,5 @@ namespace BHAS::Entities {
   }
 
 };
+
+#endif

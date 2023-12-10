@@ -1,30 +1,46 @@
 #pragma once
 
-#if !DEVICE_CAN
-#warning [NOT_SUPPORTED] CAN not supported for this target
-#else
+#include "../../bhas_platform.h"
+#include "channel.h"
 
+#if defined(PLATFORM_MBED)
 #include "InterfaceCAN.h"
 #include "mbed.h"
-#include "channel.h"
+#endif
+
+#if defined(PLATFORM_ESP)
+#include "driver/gpio.h"
+#endif
 
 namespace BHAS::Communication::Channels {
 
   class CANChannel : public Channel {
 
     public:
+#if defined(PLATFORM_MBED)
       CANChannel(CAN& canBus);
+#endif
+#if defined(PLATFORM_ESP)
+      CANChannel(gpio_num_t txPin, gpio_num_t rxPin);
+#endif
+
+    public:
+      bool init();
 
     public:
       bool send(Message& message);
-      void receive();   // Need to call this method periodically to receive messages; handlers will be called if registered
+      void process();   // Need to call this method periodically to receive messages; handlers will be called if registered
     
     private:
-      // static const size_t MAX_CAN_PACKET_SIZE = 8;
+#if defined(PLATFORM_MBED)
       CAN& _canBus;
+#endif
+#if defined(PLATFORM_ESP)
+      gpio_num_t _txPin;
+      gpio_num_t _rxPin;
+      bool _initialized = false;
+#endif
 
   };
 
 };
-
-#endif

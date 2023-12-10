@@ -1,5 +1,7 @@
 #include "push_button.h"
 
+#if defined(PLATFORM_MBED)
+
 namespace BHAS::Entities {
 
   PushButton::PushButton(uint8_t id, EventQueue& queue, PinName pin, std::string description)
@@ -38,3 +40,5 @@ namespace BHAS::Entities {
   }
 
 };
+
+#endif

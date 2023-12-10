@@ -1,5 +1,6 @@
+#include "../../bhas_platform.h"
 #include "local_echo_channel.h"
-#include "mbed_trace.h"
+#include "../../logging/trace_logging.h"
 
 #define TRACE_GROUP "BHAS LocalEchoChannel"
 
@@ -15,7 +16,7 @@ namespace BHAS::Communication::Channels {
     return true;
   }
 
-  void LocalEchoChannel::receive() {
+  void LocalEchoChannel::process() {
     if (_messageBuffer.size() == 0) return;
     
     Message message = _messageBuffer.front();

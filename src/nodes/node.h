@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mbed_events.h"
-#include <stdint.h>
+#include <cstdint>
 #include "i_message_handler.h"
 #include "message.h"
 #include "message_logger.h"

@@ -1,6 +1,6 @@
 #include "lpc_1768.h"
 #include "mbed_trace.h"
-#include <stdint.h>
+#include <cstdint>
 #include "indicator_led.h"
 
 #define TRACE_GROUP "BHAS Lpc1768"

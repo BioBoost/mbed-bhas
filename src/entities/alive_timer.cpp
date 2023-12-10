@@ -1,7 +1,6 @@
 #include "alive_timer.h"
-#include "mbed_trace.h"
 
-#define TRACE_GROUP "BHAS MessageLogger"
+#if defined(PLATFORM_MBED)
 
 namespace BHAS::Entities {
 
@@ -30,3 +29,5 @@ namespace BHAS::Entities {
   }
 
 };
+
+#endif

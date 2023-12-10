@@ -1,6 +1,6 @@
 #include "nucleo_l476.h"
 #include "mbed_trace.h"
-#include <stdint.h>
+#include <cstdint>
 #include "push_button.h"
 #include "indicator_led.h"
 #include "internal_temperature.h"

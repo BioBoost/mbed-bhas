@@ -4,7 +4,6 @@ namespace BHAS {
 
   Entity::Entity(uint8_t id, std::string description)
     : _id(id), _description(description) {
-
   }
 
   uint8_t Entity::id() const {
@@ -31,9 +30,11 @@ namespace BHAS {
     }
   };
 
+#if defined(PLATFORM_MBED)
   void Entity::on_event(mbed::Callback<void(Event&)> eventCallback) {
     _onEvent = eventCallback;
   }
+#endif
 
   void Entity::call_event_handler(Event& event) {
     if (_onEvent) {
