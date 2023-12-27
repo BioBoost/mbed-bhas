@@ -12,10 +12,11 @@ namespace BHAS {
     public:
       static std::string event_type_as_string(Event::Type type) {
         switch(type) {
-          case Event::Type::ALIVE:        return "ALIVE";
-          case Event::Type::BOOT:         return "BOOT";
-          case Event::Type::BUTTON:       return "BUTTON";
-          case Event::Type::TEMPERATURE:  return "TEMPERATURE";
+          case Event::Type::ALIVE:          return "ALIVE";
+          case Event::Type::BOOT:           return "BOOT";
+          case Event::Type::BUTTON:         return "BUTTON";
+          case Event::Type::TEMPERATURE:    return "TEMPERATURE";
+          case Event::Type::CHANNEL_STATS:  return "CHANNEL_STATS";
           default: return "UNKNOWN";
         }
       }

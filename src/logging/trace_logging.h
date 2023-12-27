@@ -1,6 +1,10 @@
 #pragma once
 #include "../bhas_platform.h"
 
+// #ifndef TRACE_GROUP
+//   #define TRACE_GROUP ""
+// #endif
+
 #if defined(PLATFORM_ESP)
 #include <cstdint>
 
@@ -19,12 +23,6 @@ void mbed_tracef(uint8_t dlevel, const char *grp, const char *fmt, ...) __attrib
 #define tr_warning(...)         mbed_tracef(TRACE_LEVEL_WARN,    TRACE_GROUP, __VA_ARGS__)   //!< Print warning message
 #define tr_debug(...)           mbed_tracef(TRACE_LEVEL_DEBUG,   TRACE_GROUP, __VA_ARGS__)   //!< Print debug message
 #define tr_error(...)           mbed_tracef(TRACE_LEVEL_ERROR,   TRACE_GROUP, __VA_ARGS__)   //!< Print Error Message
-
-// ESP_LOGE(TAG, "Last error %s: 0x%x", message, error_code);
-
-// define TAG
-// define tr_error ESP_LOGE(TRACE_GROUP,
-
 
 #endif
 

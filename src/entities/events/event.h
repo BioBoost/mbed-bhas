@@ -16,7 +16,8 @@ namespace BHAS {
         BOOT =          0x00,
         ALIVE =         0x01,
         BUTTON =        0x02,
-        TEMPERATURE =   0x03
+        TEMPERATURE =   0x03,
+        CHANNEL_STATS = 0x04
       };
 
     public:

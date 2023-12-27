@@ -1,86 +1,63 @@
 #include "node.h"
 #include "mbed.h"
-#include "mbed_trace.h"
-#include "system.h"
-#include "alive_timer.h"
+#include "../logging/trace_logging.h"
 #include "message_convertor.h"
+#include "../entities/system.h"
+#include "../entities/alive_timer.h"
 
 #define TRACE_GROUP "BHAS Node"
 
-namespace BHAS {
+namespace BHAS::Nodes {
 
-  Node::Node(uint8_t id, uint8_t gatewayId, Communication::Channel& channel)
-    : _id(id), _gatewayId(gatewayId), _channel(channel) {
+  Node::Node(uint8_t id, uint8_t gatewayId)
+    : _id(id), _gatewayId(gatewayId) {
 
-    setup_channel_logging();
-    setup_channel_processing();
-    setup_system();
-    setup_alive_timer();
+    _router = new Communication::Router(this);
+    setup_system_entity();
+    setup_alive_timer_entity();
   }
 
-  uint8_t Node::id() const {
-    return _id;
+  /**
+   * Add an entity to the node.
+  */
+  void Node::add_entity(Entity* entity) {
+    tr_info("Registering: %s", entity->to_string().c_str());
+    _entities.add(entity);
   }
 
-  uint8_t Node::gateway_id() const {
-    return _gatewayId;
-  }
-
+  /**
+   * Hand over processing to the event queue.
+  */
   void Node::dispatch_forever() {
     _eventQueue.dispatch_forever();
   }
 
-  Communication::Channel& Node::channel() {
-    return _channel;
-  }
-
-  events::EventQueue& Node::queue() {
-    return _eventQueue;
-  }
-
-  EntityManager& Node::entities() {
-    return _entities;
-  }
-
-  void Node::setup_channel_logging() {
-    _channel.register_receive_handler(&_messageLogger);
-    _channel.register_receive_handler(this);
-
-    _channel.register_send_handler(&_messageLogger);
-    _channel.register_send_handler(this);
-  }
-
-  void Node::setup_channel_processing() {
-    _eventQueue.call_every(1ms, callback(&_channel, &Communication::Channel::process));
-  }
-
-  void Node::setup_system() {
-    // TODO: Can we add the type of the node here ?
-    // That way our gateway can report of its a relayNode, a SwitchNode, ...
+  void Node::setup_system_entity() {
     Entities::System * system = new Entities::System(entities().get_free_id(), queue());
-    system->on_event(callback(this, &Node::event_handler));
-    tr_info("Registering: %s", system->to_string().c_str());
-    entities().add(system);
+    system->on_event(callback(this, &Node::handle_event));
+    add_entity(system);
   }
 
-  void Node::setup_alive_timer() {
+  void Node::setup_alive_timer_entity() {
     Entities::AliveTimer * alive = new Entities::AliveTimer(entities().get_free_id(), queue());
-    alive->on_event(callback(this, &Node::event_handler));
-    tr_info("Registering: %s", alive->to_string().c_str());
-    entities().add(alive);
+    alive->on_event(callback(this, &Node::handle_event));
+    add_entity(alive);
   }
 
-  void Node::event_handler(Event& event) {
+  /**
+   * Internal event (temperature, system events, channel stats, button press, ...) handler.
+  */
+  void Node::handle_event(Event& event) {
+    tr_info("Event has occurred: %s", event.to_string().c_str());
     Communication::Message message = Convertors::MessageConvertor::event_to_message(id(), gateway_id(), event);
-    _channel.send(message);
+    router()->send_message(message);
   }
 
-  void Node::handle_received_message(Communication::Message& message) {
-    if (message.destination_id() != id() && message.destination_id() != Node::BROADCAST_ID) {
-      tr_debug("Ignoring message");
-      return;
-    }
-
+  /**
+   * If the router has received a message that is intended for this node,
+   * than it is delivered here.
+  */
+  void Node::handle_received_message(Communication::Message& message, Communication::Channel* channel) {
     Entity* entity = entities().find_by_id(message.entity_id());
     if (!entity) {
       tr_warning("Could not find entity with id = %d", message.entity_id());
@@ -98,8 +75,9 @@ namespace BHAS {
     }
   }
 
-  void Node::handle_send_message(Communication::Message& message) {
-    // Ignore send messages
+  std::string Node::to_string() const {
+    // TODO
+    return "Node tostring() ...";
   }
 
 };

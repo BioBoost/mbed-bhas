@@ -12,6 +12,8 @@
 #include "driver/twai.h"
 #endif
 
+// TODO: Provide a reset we can call from the router if needed. Seems if no receiver is attached the bus eventually gets stuck.
+
 namespace BHAS::Communication::Channels {
 
 #if defined(PLATFORM_MBED)
@@ -19,6 +21,7 @@ namespace BHAS::Communication::Channels {
     :_canBus(canBus) {
 
     tr_info("Creating CANChannel");
+    _canBus.frequency(100*1000);
   }
 
   bool CANChannel::init() {

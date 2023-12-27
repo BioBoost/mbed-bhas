@@ -2,55 +2,62 @@
 
 #include "mbed_events.h"
 #include <cstdint>
-#include "i_message_handler.h"
-#include "message.h"
-#include "message_logger.h"
-#include "entity_manager.h"
-#include "channel.h"
-#include "event.h"
+#include <vector>
+#include "../communication/message.h"
+#include "../entity_manager/entity_manager.h"
+#include "../entities/events/event.h"
+#include "../communication/channels/channel.h"
+#include "../logging/trace_logging.h"
+#include "../router/router.h"
+#include "../communication/i_handle_received_message.h"
 
-namespace BHAS {
+// Forward declaration
+namespace BHAS::Communication {
+  class Router;
+};
 
-  class Node : public Communication::IMessageHandler {
+namespace BHAS::Nodes {
+
+  class Node : public Communication::IHandleReceivedMessage {
 
     public:
-      Node(uint8_t id, uint8_t gatewayId, Communication::Channel& channel);
+      Node(uint8_t id, uint8_t gatewayId);
 
     public:
-      uint8_t id() const;
-      uint8_t gateway_id() const;
+      uint8_t id() const { return _id; }
+      uint8_t gateway_id() const { return _gatewayId; }
+      virtual std::string type() const { return "Node"; }
+
+    protected:
+      void add_entity(Entity* entity);
 
     public:
       void dispatch_forever();
 
     protected:
-      Communication::Channel& channel();
-      events::EventQueue& queue();
-      EntityManager& entities();
+      events::EventQueue& queue() { return _eventQueue; }
+      EntityManager& entities() { return _entities; }
+      Communication::Router* router() { return _router; }
 
-    protected:
-      void handle_received_message(Communication::Message& message);
-      void handle_send_message(Communication::Message& message);
+    public:
+      void handle_received_message(Communication::Message& message, Communication::Channel* channel);
 
     private:
-      void setup_channel_logging();
-      void setup_channel_processing();
-      void setup_system();
-      void setup_alive_timer();
+      void setup_system_entity();
+      void setup_alive_timer_entity();
 
     protected:
-      void event_handler(Event& event);
+      void handle_event(Event& event);
 
-    protected:
-      static const uint8_t BROADCAST_ID = 255;
+    public:
+      virtual std::string to_string() const;
 
     private:
       uint8_t _id = 0;
       uint8_t _gatewayId = 0;
-      Communication::Channel& _channel;
-      Logging::MessageLogger _messageLogger;
       EntityManager _entities;
       events::EventQueue _eventQueue;
+      Communication::Router* _router = nullptr;       // TODO: Can't seem to create instance here
   };
 
 };

@@ -1,14 +1,15 @@
 #pragma once
 
-#include "i_message_handler.h"
+#include "../communication/i_handle_received_message.h"
+#include "../communication/i_handle_sent_message.h"
 
 namespace BHAS::Logging {
 
-  class MessageLogger : public Communication::IMessageHandler {
+  class MessageLogger : public Communication::IHandleReceivedMessage, public Communication::IHandleSentMessage {
 
     public:
-      void handle_received_message(Communication::Message& message);
-      void handle_send_message(Communication::Message& message);
+      void handle_received_message(Communication::Message& message, Communication::Channel* channel);
+      void handle_sent_message(Communication::Message& message, Communication::Channel* channel);
 
   };
 
