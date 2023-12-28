@@ -11,6 +11,8 @@
 #include "../router/router.h"
 #include "../communication/i_handle_received_message.h"
 
+// TODO: Think we need to rethink what gateway is here. It should actually be the final hop that converts the message to MQTT.
+
 // Forward declaration
 namespace BHAS::Communication {
   class Router;
